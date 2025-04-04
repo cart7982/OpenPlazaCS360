@@ -19,7 +19,7 @@
                 <div class="dropdown-content">
                     <a href = "login.php">Log In</a>
                     <a href = "logout.php">Log Out</a>
-                    <a href = "singup.html">Sign Up</a>
+                    <a href = "signup.html">Sign Up</a>
                     <a href = "profile.php">Profile</a>
                 </div>
             </div>
