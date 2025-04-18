@@ -19,6 +19,12 @@ else
 //UserID from the session global
 $_UserID = $_SESSION["UserID"];
 
+//If the user ID has been posted, set that instead (for admin use):
+if(isset($_POST["UserID"]) && $_POST["UserID"] != null && $_POST["UserID"] != "")
+{
+    $_UserID = $_POST["UserID"];
+}
+
 
 $_Username = $_POST['username'];
 $_Password = $_POST['pwd'];

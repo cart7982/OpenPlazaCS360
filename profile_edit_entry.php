@@ -54,6 +54,26 @@
         <!-- Section-->
         <section class="py-5">
 
+        <?php
+        session_start();
+        if(isset($_SESSION["UserID"]))
+        {
+            $_UserID = $_SESSION["UserID"];
+        }
+        else
+        {
+            session_unset();
+            session_destroy();
+            header('Location:login.html');
+            exit();
+        }
+        if(isset($_POST["UserID"]))
+        {
+            $_UserID = $_POST["UserID"];
+        }
+
+        ?>
+
         <!--This form starts the user session.  This allows for the usage of
             global variables as described in session.php.-->
         <form action="profile_edit.php" method="post">
@@ -69,6 +89,7 @@
                 <label for = "email" class = "form-label"> Email: </label>
                 <input type = "email" class = "form-control" id = "email" placeholder = "Enter email" name = "email">
             </div>
+            <input type="hidden" name="UserID" value="<?= htmlspecialchars($_UserID) ?>"></input>
             <button type = "submit" class = "btn btn-primary"> Submit</button>
         </form>
         </section>
