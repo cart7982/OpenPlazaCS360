@@ -20,41 +20,70 @@ $_Password = $_POST['pwd'];
 echo $_Username;
 echo $_Password;
 
-//Check if that username and password combo exist in the database:
-$sql = "SELECT Username, Password FROM users WHERE Username='$_Username' AND Password='$_Password'";
 
-$result = $conn->query($sql);
+//Prepare statement to check for user by username
+$stmt = $conn->prepare("SELECT Password, UserID, Email, AdminID, VendorID FROM users WHERE Username = ?");
+$stmt->bind_param("s", $_Username);
+$stmt->execute();
+$result = $stmt->get_result();
 
-//Check if username/password combo exists in database.  
+
+//Check if username exists in database.  
 //If so, start the session, otherwise go back to login.
-if($result->num_rows != 0){
-    session_start();
-    echo "Session started!";
+if($result->num_rows === 1){
+
+    $row = mysqli_fetch_array($result); 
+
+    //Retrieve the hashed password
+    $_pwd = $row['Password'];
+
+    //Check the hashed password against inputted password
+    if(password_verify($_Password, $_pwd))
+    {
+        session_start();
+        echo "Session started!";
+        
+        //Put the user into global form
+        $_SESSION["Username"] = $_Username;
+        $_SESSION["UserID"] = $row['UserID'];
+        $_SESSION["Email"] = $row['Email'];
+
+        if($row['AdminID'] != '0')
+        {            
+            $_SESSION["AdminID"] = $row['AdminID'];
+        }
+        else
+        {
+            unset($_SESSION["AdminID"]);
+        }
+        if($row['VendorID'] != '0')
+        {            
+            $_SESSION["VendorID"] = $row['VendorID'];
+        }
+        else
+        {
+            unset($_SESSION["VendorID"]);
+        }
+                 
+        $stmt->close();
+        $conn->close();
+
+        //If a session started, go to profile.
+        header('Location:profile.php');
+        exit();
+
+    }
+    else
+    {
+        echo "Password couldn't be verified for username!  Login failed!";
+    }
+
+
 }
 else
 {
-    header('Location:login.html');
-    exit();
-}
-
-//Get the user ID to be put into a global form.
-$result = mysqli_query($conn, "SELECT UserID as userID FROM users WHERE Username='$_Username' AND Password='$_Password'");
-$row = mysqli_fetch_array($result);
-$UserID = $row['userID'];
-//$_UserID = intval($UserID);
-
-
-//Declare global session variables.
-//These variables can then be used in any session() page.
-$_SESSION["Username"] = $_Username;
-$_SESSION["Password"] = $_Password;
-$_SESSION["UserID"] = $UserID;
-
-$conn->close();
-
-//If a session started, go to profile.
-if($result->num_rows!= 0){
-    header('Location:profile.php');
+    echo "Username and password combination not found!  Login failed!";
+    //header('Location:login.html');
 }
 
 ?>

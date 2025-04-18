@@ -9,7 +9,7 @@
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
+        <link href="styles.css" rel="stylesheet" />
     </head>
     <body>
         <!-- Navigation-->
@@ -59,7 +59,7 @@
             - Once internal content is up-to-date, visual update.
          -->
         <section class="py-5">
-            <form action="add_user.php" method="post">
+            <form action="user_add.php" method="post">
                 <div class = "mb-3 mt-3">
                     <label for = "username" class = "form-label">Username: </label>
                     <input type = "text" class = "form-control" id = "username" placeholder = "Enter username" name = "username">
@@ -70,6 +70,15 @@
                 <div class = "mb-3">
                     <label for = "pwd" class = "form-label"> Password: </label>
                     <input type = "password" class = "form-control" id = "pwd" placeholder = "Enter password" name = "pwd">
+                </div>
+                <div class = "mb-3">
+                    <p> Do you want to sign up as a Customer or a Vendor?  <br>Only select Admin if you're really sure!</p>
+                    <input type="radio" id="customer" name="usertype" value="customer">
+                    <label for="customer">Customer</label><br>
+                    <input type="radio" id="vendor" name="usertype" value="vendor">
+                    <label for="vendor">Vendor</label><br>
+                    <input type="radio" id="admin" name="usertype" value="admin">
+                    <label for="admin">Admin</label><br>
                 </div>
                 <button type = "submit" class = "btn btn-primary"> Submit</button>
             </form>

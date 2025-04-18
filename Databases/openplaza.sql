@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 04, 2025 at 06:12 PM
+-- Generation Time: Apr 18, 2025 at 06:26 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -72,23 +72,16 @@ CREATE TABLE `products` (
   `UserID` varchar(255) NOT NULL,
   `Amount` int(11) NOT NULL,
   `Description` text NOT NULL,
-  `Price` int(11) NOT NULL
+  `Price` int(11) NOT NULL,
+  `ImagePath` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`ProductName`, `ProductID`, `UserID`, `Amount`, `Description`, `Price`) VALUES
-('vv', 8, '1', 19, 'vv', 77),
-('gg', 9, '2', 10, 'gg', 44),
-('mm', 16, '3', 9, 'mm', 55),
-('cc', 17, '4', 23, 'cc', 55),
-('Cotton', 19, '0', 130, 'Woolly', 55),
-('Iron Ingots', 20, '1', 40, 'Pretty tough', 66),
-('Copper Ingots', 21, '1', 135, 'Coppery', 35),
-('Tin Ingots', 22, '2', 50, 'Whatever', 25),
-('Green Opals', 23, '3', 100, 'Shiny green', 400);
+INSERT INTO `products` (`ProductName`, `ProductID`, `UserID`, `Amount`, `Description`, `Price`, `ImagePath`) VALUES
+('Iron Ingots', 1, 'EDB15DAB-ACE4-42CA-A3CC-337444736A7D', 500, 'Hard', 35, '');
 
 -- --------------------------------------------------------
 
@@ -108,29 +101,6 @@ CREATE TABLE `transactions` (
   `PAID` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `transactions`
---
-
-INSERT INTO `transactions` (`TransactionID`, `ProductName`, `ProductID`, `UserID`, `Quantity`, `TotalPrice`, `Price`, `PaymentID`, `PAID`) VALUES
-(51, 'pp', 14, '1', 10, 550, 55, 6, 1),
-(52, 'cc', 17, '1', 13, 715, 55, 6, 1),
-(53, 'pp', 14, '1', 10, 550, 55, 8, 1),
-(54, 'cc', 17, '1', 13, 715, 55, 8, 1),
-(55, 'rr', 15, '1', 5, 330, 66, 9, 1),
-(56, 'cc', 17, '1', 13, 715, 55, 9, 1),
-(57, 'pp', 14, '1', 10, 550, 55, 10, 1),
-(58, 'cc', 17, '1', 7, 385, 55, 10, 1),
-(59, 'pp', 14, '1', 10, 550, 55, 11, 1),
-(60, 'oo', 18, '1', 8, 616, 77, 11, 1),
-(61, 'oo', 18, '2', 8, 616, 77, 12, 1),
-(62, 'Cotton', 19, '2', 10, 550, 55, 12, 1),
-(63, 'oo', 18, '2', 10, 770, 77, 13, 1),
-(64, 'Cotton', 19, '2', 10, 550, 55, 13, 1),
-(65, 'Cotton', 19, '3', 20, 1100, 55, 0, 0),
-(66, 'Copper Ingots', 21, '2', 15, 525, 35, 14, 1),
-(67, 'Iron Ingots', 20, '2', 10, 660, 66, 15, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -142,27 +112,21 @@ CREATE TABLE `users` (
   `Email` text NOT NULL,
   `Password` text NOT NULL,
   `UserID` varchar(36) NOT NULL,
-  `isSeller` tinyint(1) NOT NULL,
-  `isAdmin` tinyint(1) NOT NULL
+  `VendorID` varchar(255) NOT NULL,
+  `AdminID` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`Username`, `Email`, `Password`, `UserID`, `isSeller`, `isAdmin`) VALUES
-('aa', 'aa@aa', 'aa', '1', 0, 0),
-('bbb', 'bbb@bb', 'bbb', '2', 0, 0),
-('cc', 'cc@cc', 'cc', '3', 0, 0),
-('dd', 'dd@dd', 'dd', '4', 0, 0),
-('tt', 'tt@tt', 'tt', '0', 0, 0),
-('bbb', 'bbb@bb', 'bbb', '2', 0, 0),
-('ll', 'll@ll', 'll', '37', 0, 0),
-('ff', 'ff@ff', 'ff', 'EDB15DAB-ACE4-42CA-A3CC-337444736A7D', 0, 0),
-('rr', 'rr@rr', 'rr', '08030BB3-7A10-4F3F-BAA6-6A1ABBDF34FB', 0, 0),
-('hh', 'hh@hh', 'hh', '1B7C2249-207E-400B-8A9C-C12F5CCA0588', 0, 0),
-('qq', 'qq@qq', 'qq', 'B0DC98E1-9A63-42A6-B9EB-9D06777F43CB', 0, 0),
-('yy', 'yy@yy', 'yy', '6818B5EC-87D7-4C22-A474-4D0DC018E1C6', 0, 0);
+INSERT INTO `users` (`Username`, `Email`, `Password`, `UserID`, `VendorID`, `AdminID`) VALUES
+('vv', 'vv@vv', '$2y$12$9Nf3Es.Yvzaf5foEJqGSfenP567repJoFQBk0itzIu7cbl8e8U7NW', '274DCB93-75B6-4418-90F9-B6EE56FBD231', '0', 'AE3B045C-8970-4E7A-B892-2671039871E1'),
+('hj', 'hj@hj', '$2y$12$QSQDSEj.cW6R72UmaAMbZuD75UHPnJp.ULG0g0dNBKKM2Bbuy/iOm', '8B3E5076-21F7-47E0-807D-3A61C50D8530', '300E7956-2516-4D9C-A659-DACC159A7402', '0'),
+('rt', 'rt@rt', '$2y$12$FT0NEAZ2nJ3nFDYX3wLuV.fPmZTgG6ZuTumazKjSjgI8E.HnQAxtK', '2AFFD3C0-BD8D-45E0-922C-48B47742EF23', '0', '0'),
+('et', 'et@et', '$2y$12$qfDlp4n8v5jkx3lFVvEkwOUlCCGZtTy5tSadvgPWIZoEbiW4VYFqe', 'C1F92A4F-9C8D-474C-BA64-CBE73B5A2B7A', '0', '0'),
+('aa', 'aa@aa', '$2y$12$d6G67EWK2ngbyJ3lA4Jvm.wtWLEqko2JG8J867vUUajRaHDc0QkKy', 'ADD32435-F59F-4E12-BE95-A763C3B6F83A', '0', '0'),
+('bb', 'bb@bb', '$2y$12$9BdJzsX38FEiZdkLjV3Fiu5egde4RsiXwOL4XiS/yGCg2KrRCw7aK', '3FA9DBBC-1126-4ADB-965D-A02B38B2ABEA', '0', '0');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -21,6 +21,7 @@ $_Quantity = $_POST['Quantity'];
 $_TransactionID = $_POST['TransactionID'];
 
 //Get integer value of quantity
+//Since this is the only user inputted value, this page is secure against SQL injection.
 $Quantity = intval($_Quantity);
 
 echo 'Quantity is '.$_Quantity;
