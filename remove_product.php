@@ -43,6 +43,7 @@ if ($row = $result->fetch_assoc()) {
 }
 $stmt->close();
 
+//Delete the row from the table
 $sql = "DELETE FROM products WHERE ProductID='$ID'";
 $conn->query($sql);
 
