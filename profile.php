@@ -377,7 +377,11 @@
                         <td><?= htmlspecialchars($row['Amount']) ?></td>
                         <td><?= htmlspecialchars($row['Description']) ?></td>
                         <td><form action="remove_product.php" method="post">
-                            <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Remove</button></form></td>
+                            <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Delete</button></form></td>
+                        <td><form action="product_edit_entry.php" method="post">
+                            <input type="hidden" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>"></input>
+                            <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Update</button></form></td>
+                        
                         </tr>
                     <?php endforeach ?>
                     </table>
