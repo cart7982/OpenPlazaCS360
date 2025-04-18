@@ -5,11 +5,24 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <title>OpenPlaza</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="./Images/pillar.jpg" />
         <!-- Bootstrap icons-->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="styles.css" rel="stylesheet" />
+        
+        <?php
+        // DB connection
+        $servername = "127.0.0.1";
+        $username = "root";
+        $password = "";
+        $dbname = "openplaza";
+
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        session_start();
+
+        ?>
     </head>
     <body>
        
@@ -48,6 +61,77 @@
                 </div>
             </div>
         </header>
+
+
+
+        <!-- Section -->
+        <section class="py-5">
+            <div class="text-center">
+                <h2>The Grand Marketplace</h2>
+            </div>
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+                <?php 
+
+                //
+                if(isset($_SESSION['UserID']))
+                {
+                    $_UserID = $_SESSION["UserID"];
+
+                    //Fetch products
+                    $sql = "SELECT ProductName, Amount, ImagePath, Description, ProductID FROM products WHERE UserID!='$_UserID'";
+                    $result = $conn->query($sql);
+                }
+                else
+                {
+                    //Fetch products
+                    $sql = "SELECT ProductName, Amount, ImagePath, Description, ProductID FROM products";
+                    $result = $conn->query($sql);
+                }
+                
+                //Go through list to display them dynamically
+                while ($row = $result->fetch_assoc()) { ?>
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image -->
+                            <img class="card-img-top" src="<?php echo './Images/' . $row['ImagePath']; ?>" alt="Product Image" style="height: 300px; object-fit: cover;" />
+
+                            <!-- Product details -->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder"><?php echo htmlspecialchars($row['ProductName']); ?></h5>
+                                    <?php echo htmlspecialchars($row['Description']); ?><br>
+                                    <strong>$<?php echo number_format($row['Amount'], 2); ?></strong>
+                                </div>
+                            </div>
+
+                            <!-- Product actions -->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    
+                                    <form action="add_cart.php" method="post">
+                                        <label for="Quantity">Quantity></label>
+                                        <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
+                                        <button class="btn btn-outline-dark mt-auto" style="height:30px; width:150px" type="submit" name="ProductID" value="<?= $row['ProductID'] ?>">Add to Cart</button>
+                                    </form>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+
         <!-- Section-->
         <section class="py-5">
             
@@ -65,13 +149,11 @@
         </div>
 
         <?php
-
-        session_start();
         if(isset($_SESSION['UserID']))
         {
             $_UserID = $_SESSION["UserID"];
 
-            $conn = mysqli_connect("localhost","root","","openplaza");
+            //$conn = mysqli_connect("localhost","root","","openplaza");
             $result = mysqli_query($conn,"SELECT * FROM products WHERE UserID!='$_UserID' LIMIT 50");
             $data = $result->fetch_all(MYSQLI_ASSOC);
         }
@@ -79,7 +161,7 @@
         {
             session_unset();
             session_destroy();
-            $conn = mysqli_connect("localhost","root","","openplaza");
+            //$conn = mysqli_connect("localhost","root","","openplaza");
             $result = mysqli_query($conn,"SELECT * FROM products LIMIT 50");
             $data = $result->fetch_all(MYSQLI_ASSOC);
         }

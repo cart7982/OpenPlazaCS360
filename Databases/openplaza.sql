@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2025 at 06:26 PM
+-- Generation Time: Apr 18, 2025 at 10:53 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -81,7 +81,12 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`ProductName`, `ProductID`, `UserID`, `Amount`, `Description`, `Price`, `ImagePath`) VALUES
-('Iron Ingots', 1, 'EDB15DAB-ACE4-42CA-A3CC-337444736A7D', 500, 'Hard', 35, '');
+('Uncut carnelian', 3, 'D55DCAC5-3A28-41D1-90AC-334E313D9A56', 345, 'Red', 67, 'UncutCarnelian.png'),
+('Uncut topaz', 4, 'D55DCAC5-3A28-41D1-90AC-334E313D9A56', 346, 'Yellow', 78, 'UncutTopaz.png'),
+('Iron Ingots', 5, '05B4295E-45BF-4AFC-BC8E-6FAB2026E029', 550, 'Hard', 26, 'IronIngots.png'),
+('Bronze Ingots', 6, '05B4295E-45BF-4AFC-BC8E-6FAB2026E029', 777, 'Pretty tough', 22, 'BronzeIngots.png'),
+('Cows', 7, 'EC626EB6-CBB4-43F1-855C-06E26D827BD0', 435, 'Beefy', 78, 'Cows.png'),
+('Sheep', 8, 'EC626EB6-CBB4-43F1-855C-06E26D827BD0', 653, 'Woolly', 45, 'SheepPicture.png');
 
 -- --------------------------------------------------------
 
@@ -100,6 +105,13 @@ CREATE TABLE `transactions` (
   `PaymentID` int(11) NOT NULL,
   `PAID` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `transactions`
+--
+
+INSERT INTO `transactions` (`TransactionID`, `ProductName`, `ProductID`, `UserID`, `Quantity`, `TotalPrice`, `Price`, `PaymentID`, `PAID`) VALUES
+(1, 'Uncut carnelian', 3, 'A1A77936-E143-41EE-8940-F07415B5618A', 35, 2345, 67, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -121,12 +133,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`Username`, `Email`, `Password`, `UserID`, `VendorID`, `AdminID`) VALUES
-('vv', 'vv@vv', '$2y$12$9Nf3Es.Yvzaf5foEJqGSfenP567repJoFQBk0itzIu7cbl8e8U7NW', '274DCB93-75B6-4418-90F9-B6EE56FBD231', '0', 'AE3B045C-8970-4E7A-B892-2671039871E1'),
-('hj', 'hj@hj', '$2y$12$QSQDSEj.cW6R72UmaAMbZuD75UHPnJp.ULG0g0dNBKKM2Bbuy/iOm', '8B3E5076-21F7-47E0-807D-3A61C50D8530', '300E7956-2516-4D9C-A659-DACC159A7402', '0'),
-('rt', 'rt@rt', '$2y$12$FT0NEAZ2nJ3nFDYX3wLuV.fPmZTgG6ZuTumazKjSjgI8E.HnQAxtK', '2AFFD3C0-BD8D-45E0-922C-48B47742EF23', '0', '0'),
-('et', 'et@et', '$2y$12$qfDlp4n8v5jkx3lFVvEkwOUlCCGZtTy5tSadvgPWIZoEbiW4VYFqe', 'C1F92A4F-9C8D-474C-BA64-CBE73B5A2B7A', '0', '0'),
-('aa', 'aa@aa', '$2y$12$d6G67EWK2ngbyJ3lA4Jvm.wtWLEqko2JG8J867vUUajRaHDc0QkKy', 'ADD32435-F59F-4E12-BE95-A763C3B6F83A', '0', '0'),
-('bb', 'bb@bb', '$2y$12$9BdJzsX38FEiZdkLjV3Fiu5egde4RsiXwOL4XiS/yGCg2KrRCw7aK', '3FA9DBBC-1126-4ADB-965D-A02B38B2ABEA', '0', '0');
+('jj', 'jj@jj', '$2y$12$W0kVZ7wOe9Xrvxmgz9UJ8elxxxoh//Yl7t6YFB1MSheuFLGHuBsn.', '8B3E5076-21F7-47E0-807D-3A61C50D8530', '300E7956-2516-4D9C-A659-DACC159A7402', '0'),
+('ww', 'ww@ww', '$2y$12$iFDomxtmHkJX2jJ46i5Mh.NSWDSeuF9ExopuiXZItcRICvOYplFru', 'ADD32435-F59F-4E12-BE95-A763C3B6F83A', '0', '0'),
+('bb', 'bb@bb', '$2y$12$9BdJzsX38FEiZdkLjV3Fiu5egde4RsiXwOL4XiS/yGCg2KrRCw7aK', '3FA9DBBC-1126-4ADB-965D-A02B38B2ABEA', '0', '0'),
+('cc', 'cc@cc', '$2y$12$zKuF6fctUAf84jjcIsdFte5EZ1XIIKQiu2sr2qDlHEjrebt3b4A56', 'D55DCAC5-3A28-41D1-90AC-334E313D9A56', 'A366ABEA-95F3-4FFE-A9C5-23F1F39E9E49', '0'),
+('vv', 'vv@vv', '$2y$12$DCZTP7XhoXEqUfcJdAUxlOK1zYiw0140qzXgnT.qJQI97NQF3j51u', 'A1A77936-E143-41EE-8940-F07415B5618A', '0', '3A245ABE-4A71-479C-8A7E-5886F2FCDBAA'),
+('aa', 'aa@aa', '$2y$12$fF9W8yKil9IvRHaGeXvilO/WgIRYOOQziZaSVSSGXY8rE30CQXnSq', '05B4295E-45BF-4AFC-BC8E-6FAB2026E029', '9BE7104C-1010-4015-A7E4-0E91690B82E5', '0'),
+('dd', 'dd@dd', '$2y$12$RKubi4iBWJZHtLqblV99NeE7OK.smpfwZIewHwXsjRgvam/iT72zC', 'EC626EB6-CBB4-43F1-855C-06E26D827BD0', '00695346-BA6C-4910-A537-0E6766C236C6', '0');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
