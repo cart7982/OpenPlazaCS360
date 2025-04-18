@@ -92,7 +92,9 @@ if (isset($_POST['email'])) {
 
 }
 
-header('Location:profile.php');
 $conn->close();
+
+header("Location: profile.php");
+exit();
 }
 ?>

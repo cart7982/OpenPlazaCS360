@@ -105,7 +105,9 @@ else
 }
 
 
-header('Location:profile.php');
 $conn->close();
+
+header("Location: profile.php");
+exit();
 }
 ?>

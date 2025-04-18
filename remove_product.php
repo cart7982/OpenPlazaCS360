@@ -27,5 +27,7 @@ $conn->query($sql);
 
 $conn->close();
 
-header('Location:profile.php');
+header("Location: profile.php");
+exit();
+
 ?>
