@@ -81,6 +81,13 @@ $NewTransactionID = intval($PrevID) + 1;
 //UserID from the session global
 $_UserID = $_SESSION["UserID"];
 
+//If the user ID has been posted, set that instead (for admin use):
+if(isset($_POST["UserID"]))
+{
+    $_UserID = $_POST["UserID"];
+}
+
+
 //Check if the variables needed for a transaction have been set
 if(isset($_ProductID) && isset($_UserID) && isset($_Quantity) && isset($_TotalPrice) && isset($_Price)) 
 {

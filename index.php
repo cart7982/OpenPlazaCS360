@@ -65,21 +65,23 @@
         </div>
 
         <?php
-        $conn = mysqli_connect("localhost","root","","openplaza");
-        $result = mysqli_query($conn,"SELECT * FROM products LIMIT 50");
-        $data = $result->fetch_all(MYSQLI_ASSOC);
 
         session_start();
         if(isset($_SESSION['UserID']))
         {
             $_UserID = $_SESSION["UserID"];
-            header('Location:product_listings.php');
-            exit();
+
+            $conn = mysqli_connect("localhost","root","","openplaza");
+            $result = mysqli_query($conn,"SELECT * FROM products WHERE UserID!='$_UserID' LIMIT 50");
+            $data = $result->fetch_all(MYSQLI_ASSOC);
         }
         else
         {
             session_unset();
             session_destroy();
+            $conn = mysqli_connect("localhost","root","","openplaza");
+            $result = mysqli_query($conn,"SELECT * FROM products LIMIT 50");
+            $data = $result->fetch_all(MYSQLI_ASSOC);
         }
         ?>
 

@@ -83,6 +83,7 @@
                     <table border="1">
                     <tr>
                         <th>Product Name</th>
+                        <th>Product ID</th>
                         <th>Price</th>
                         <th>Amount</th>
                         <th>User ID</th>
@@ -92,6 +93,7 @@
                     <?php foreach($data as $row): ?>
                     <tr>
                         <td><?= htmlspecialchars($row['ProductName']) ?></td>
+                        <td><?= htmlspecialchars($row['ProductID']) ?></td>
                         <td><?= htmlspecialchars($row['Price']) ?></td>
                         <td><?= htmlspecialchars($row['Amount']) ?></td>
                         <td><?= htmlspecialchars($row['UserID']) ?></td>
@@ -217,6 +219,15 @@
                                     <label for = "email" class = "form-label">Email: </label>
                                     <input type = "email" class = "form-control" id = "email" placeholder = "Enter email" name = "email">
                                 </div>
+                                <div class = "mb-3">
+                                    <p> Are they a Customer, Vendor, or an Admin?</p>
+                                    <input type="radio" id="customer" name="usertype" value="customer">
+                                    <label for="customer">Customer</label><br>
+                                    <input type="radio" id="vendor" name="usertype" value="vendor">
+                                    <label for="vendor">Vendor</label><br>
+                                    <input type="radio" id="admin" name="usertype" value="admin">
+                                    <label for="admin">Admin</label><br>
+                                </div>
                                 <button type = "submit" class = "btn btn-primary"> Submit</button>
                             </form>
                         </div>
@@ -283,7 +294,45 @@
             </div>
         </div>
 
-
+        <!-- Modal button to create a transaction -->
+        <div class = "card-footer">
+            <button type = "button" class = "btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal4">
+                Create a Transaction
+            </button>
+        
+            <div class = "modal" id = "myModal4">
+                <div class = "modal-dialog">
+                    <div class = "modal-content">
+        
+                        <div class = "modal-header">
+                            <button type = "button" class = "btn-close" data-bs-dismiss = "modal"></button>
+                        </div>
+        
+                        <div class = "modal-body">
+                            <form action="add_cart.php" method="post">
+                                <div class = "mb-3 mt-3">
+                                    <label for = "ProductID" class = "form-label">Product ID: </label>
+                                    <input type = "text" class = "form-control" id = "ProductID" placeholder = "Enter ProductID" name = "ProductID">
+                                </div>
+                                <div class = "mb-3 mt-3">
+                                    <label for = "UserID" class = "form-label">User ID: </label>
+                                    <input type = "text" class = "form-control" id = "UserID" placeholder = "Enter UserID" name = "UserID">
+                                </div>
+                                <div class = "mb-3 mt-3">
+                                    <label for = "Quantity" class = "form-label">Quantity: </label>
+                                    <input type = "text" class = "form-control" id = "Quantity" placeholder = "Enter Quantity" name = "Quantity">
+                                </div>
+                                <button type = "submit" class = "btn btn-primary"> Submit</button>
+                            </form>
+                        </div>
+        
+                        <div class = "modal-footer">
+                            <button type = "button" class = "btn btn-danger" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 
