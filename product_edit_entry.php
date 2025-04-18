@@ -107,7 +107,7 @@
             </div>
 
             <?php 
-            if(isset($_SESSION["AdminID"]))
+            if(isset($_SESSION["AdminID"]) && $_SESSION["AdminID"] != null && $_SESSION["AdminID"] != "")
             { ?>
                 <input type="hidden" name="ProductID" value="<?= htmlspecialchars($_ProductID) ?>"></input>
                 <div class="form-group">

@@ -345,6 +345,8 @@
 
 <?php } ?>
 
+
+<!-- Start of Vendor Stuff -->
 <?php if(isset($_SESSION["VendorID"])) { ?>
 
 <div class = "card">

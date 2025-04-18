@@ -89,7 +89,18 @@
                 <label for = "email" class = "form-label"> Email: </label>
                 <input type = "email" class = "form-control" id = "email" placeholder = "Enter email" name = "email">
             </div>
-            <input type="hidden" name="UserID" value="<?= htmlspecialchars($_UserID) ?>"></input>
+
+            <?php 
+            if(isset($_SESSION["AdminID"]) && $_SESSION["AdminID"] != null && $_SESSION["AdminID"] != "")
+            { ?>
+                <input type="hidden" name="UserID" value="<?= htmlspecialchars($_UserID) ?>"></input>
+                <div class="form-group">
+                    <label for = "NewUserID" class = "form-label">New User ID:  </label>
+                    <input class="form-control" type="text" id = "NewUserID" name="NewUserID" >
+                </div>
+            <?php
+            }
+            ?>
             <button type = "submit" class = "btn btn-primary"> Submit</button>
         </form>
         </section>
