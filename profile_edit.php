@@ -30,6 +30,8 @@ $_Username = $_POST['username'];
 $_Password = $_POST['pwd'];
 $_Email = $_POST['email'];
 
+//Create hashed password
+$_HashedPassword = password_hash($_Password, PASSWORD_DEFAULT);
 
 if(isset($_POST['username']) && $_Username != null && $_Username != '')
 {
@@ -39,8 +41,7 @@ if(isset($_POST['username']) && $_Username != null && $_Username != '')
 }
 if(isset($_POST['pwd']) && $_Password != null && $_Password != '')
 {    
-    $_SESSION["Password"] = $_Password;
-    $sql = "UPDATE Users SET Password='$_Password' WHERE UserID='$_UserID'";
+    $sql = "UPDATE Users SET Password='$_HashedPassword' WHERE UserID='$_UserID'";
     $conn->query($sql);
 }
 if(isset($_POST['email']) && $_Email != null && $_Email != '')

@@ -109,18 +109,24 @@
             <?php 
             if(isset($_SESSION["AdminID"]))
             { ?>
+                <input type="hidden" name="ProductID" value="<?= htmlspecialchars($_ProductID) ?>"></input>
                 <div class="form-group">
-                    <label for = "ProductID" class = "form-label">Product ID:  </label>
-                    <input class="form-control" type="text" id = "ProductID" name="ProductID" >
+                    <label for = "NewProductID" class = "form-label">New Product ID:  </label>
+                    <input class="form-control" type="text" id = "NewProductID" name="NewProductID" >
                 </div>
                 <div class="form-group">
-                    <label for = "UserID" class = "form-label">User ID:  </label>
+                    <label for = "UserID" class = "form-label">New User ID:  </label>
                     <input class="form-control" type="text" id = "UserID" name="UserID" >
                 </div>
             <?php
-            }            
+            }
+            else
+            {
             ?>
-
+                <input type="hidden" name="ProductID" value="<?= htmlspecialchars($_ProductID) ?>"></input>
+            <?php
+            }
+            ?>
             <button type = "submit" class = "btn btn-primary"> Submit</button>
         </form>
         </section>
