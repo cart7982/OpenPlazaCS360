@@ -59,8 +59,8 @@
         </header>
         <!-- Section-->
         <section class="py-5">
-        <div class="card">
-            <div class = "card-header">
+        <div class="card bg-primary">
+            <div class = "card-header bg-secondary">
                 Welcome to your cart!  <br>
                 Items you have selected for purchase will appear here.
             </div>
@@ -87,31 +87,61 @@
                 }
                 ?>
 
-                <table border="1">
-                <tr>
-                    <th>Product Name</th>
-                    <th>Total Price</th>
-                    <th>Quantity</th>
-                    <th>Action</th>
-                </tr>
-                <?php foreach($data as $row): ?>
-                <tr>
-                    <td><?= htmlspecialchars($row['ProductName']) ?></td>
-                    <td><?= htmlspecialchars($row['TotalPrice']) ?></td>
-                    <td><?= htmlspecialchars($row['Quantity']) ?></td>
-                    <td><form action="cart_increase.php" method="post">
-                            <label for="Quantity">Quantity></label>
-                            <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
-                            <input type="hidden" id="TransactionID" name="TransactionID" value="<?= htmlspecialchars($row['TransactionID']) ?>"></input>
-                            <button style="height:30px; width:120px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Add More</button></form></td>
-                    <td><form action="cart_remove.php" method="post">
-                            <label for="Quantity">Quantity></label>
-                            <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
-                            <input type="hidden" id="TransactionID" name="TransactionID" value="<?= htmlspecialchars($row['TransactionID']) ?>"></input>
-                            <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Remove</button></form></td>
-                        </tr>
-                <?php endforeach ?>
-                </table> 
+<div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+                <?php 
+
+                //
+                if(isset($_SESSION['UserID']))
+                {
+                    $_UserID = $_SESSION["UserID"];
+
+                    //Fetch products
+                    $sql = "SELECT ProductName, Amount, ImagePath, Description, ProductID FROM products WHERE UserID='$_UserID'";
+                    $result = $conn->query($sql);
+                }
+                else
+                {
+                    //Fetch products
+                    $sql = "SELECT ProductName, Amount, ImagePath, Description, ProductID FROM products";
+                    $result = $conn->query($sql);
+                }
+                
+                //Go through list to display them dynamically
+                while ($row = $result->fetch_assoc()) { ?>
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <!-- Product image -->
+                            <img class="card-img-top" src="<?php echo './Images/' . $row['ImagePath']; ?>" alt="Product Image" style="height: 300px; object-fit: cover;" />
+
+                            <!-- Product details -->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <h5 class="fw-bolder"><?php echo htmlspecialchars($row['ProductName']); ?></h5>
+                                    <?php echo htmlspecialchars($row['Description']); ?><br>
+                                    <strong>$<?php echo number_format($row['Amount'], 2); ?></strong>
+                                </div>
+                            </div>
+
+                            <!-- Product actions -->
+                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                <div class="text-center">
+                                    
+                                    <form action="add_cart.php" method="post">
+                                        <label for="Quantity">Quantity></label>
+                                        <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
+                                        <button class="btn btn-outline-dark mt-auto" style="height:30px; width:150px" type="submit" name="ProductID" value="<?= $row['ProductID'] ?>">Add to Cart</button>
+                                    </form>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
+
+                </div>
+            </div>
             </div>
             <div class = "card-body">                
                 <a class="dropbtn" href = "checkout.php" class="dropbtn">Checkout</a>

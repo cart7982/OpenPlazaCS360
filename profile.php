@@ -60,7 +60,7 @@
 
         <!-- Content -->
         <section class="py-5">
-        <div class = "card">
+        <div class = "card bg-secondary">
             <div class = "card-header">
                 Welcome, <?php echo $_SESSION["Username"] ?>!<br>
                 User ID is: <?php echo $_SESSION["UserID"] ?><br>
@@ -70,379 +70,402 @@
             </div>
         </div>
 
-<?php if(isset($_SESSION["AdminID"])) { ?>
+        <?php if(isset($_SESSION["AdminID"])) { ?>
+                <!-- Admin Products Table-->
+                <div class = "card bg-primary">
+                    <h3>Your Admin Panel</h3>
+                    <div class = "card-body">
+                        All Products for Sale: 
+                            <?php
+                            $_UserID = $_SESSION["UserID"];
+                            $conn = mysqli_connect("localhost","root","","openplaza");
+                            ?>
 
-        <div class = "card">
-        <h3>Your Admin Panel</h3>
-            <div class = "card-body">
-                All Products for Sale: 
-                    <?php
-                    $_UserID = $_SESSION["UserID"];
-                    $conn = mysqli_connect("localhost","root","","openplaza");
-                    $result = mysqli_query($conn,"SELECT * FROM products LIMIT 50");
-                    $data = $result->fetch_all(MYSQLI_ASSOC);
-                    ?>
+                        <div class="container px-4 px-lg-5 mt-5">
+                            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-                    <table border="1">
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Product ID</th>
-                        <th>Price</th>
-                        <th>Amount</th>
-                        <th>User ID</th>
-                        <th>Description</th>
-                        <th>Action</th>
-                    </tr>
-                    <?php foreach($data as $row): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($row['ProductName']) ?></td>
-                        <td><?= htmlspecialchars($row['ProductID']) ?></td>
-                        <td><?= htmlspecialchars($row['Price']) ?></td>
-                        <td><?= htmlspecialchars($row['Amount']) ?></td>
-                        <td><?= htmlspecialchars($row['UserID']) ?></td>
-                        <td><?= htmlspecialchars($row['Description']) ?></td>
-                        <td><form action="remove_product.php" method="post">
-                            <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Delete</button></form></td>
-                        <td><form action="product_edit_entry.php" method="post">
-                            <input type="hidden" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>"></input>
-                            <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Update</button></form></td>
-                        
-                        </tr>
-                    <?php endforeach ?>
-                    </table>
+                            <?php 
 
-            </div>
-        </div>
-        
-        <!-- Modal button to create product listing -->
-        <div class = "card-footer">
-            <button type = "button" class = "btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal1">
-                Create a Listing
-            </button>
-        
-            <div class = "modal" id = "myModal1">
-                <div class = "modal-dialog">
-                    <div class = "modal-content">
-        
-                        <div class = "modal-header">
-                            <button type = "button" class = "btn-close" data-bs-dismiss = "modal"></button>
-                        </div>
-        
-                        <div class = "modal-body">
-                            <form action="add_product.php" method="post">
-                                <div class = "mb-3 mt-3">
-                                    <label for = "product-name" class = "form-label">Product to sell: </label>
-                                    <input type = "text" class = "form-control" id = "product-name" placeholder = "Enter product name" name = "product-name">
+                            //Selecting all items
+                            $sql = "SELECT ProductName, Amount, ImagePath, Description, ProductID FROM products";
+                            $result = $conn->query($sql);
+                            
+                            //Go through list to display them dynamically
+                            while ($row = $result->fetch_assoc()) { ?>
+                                <div class="col mb-5">
+                                    <div class="card h-100 bg-light">
+                                        <!-- Product image -->
+                                        <img class="img-thumbnail" src="<?php echo './Images/' . $row['ImagePath']; ?>" alt="Product Image" style="height: 300px; object-fit: cover;" />
+
+                                        <!-- Product details -->
+                                        <div class="card-body p-4">
+                                            <div class="text-center">
+                                                <h5 class="fw-bolder"><?php echo htmlspecialchars($row['ProductName']); ?></h5>
+                                                <?php echo htmlspecialchars($row['Description']); ?><br>
+                                                <strong>$<?php echo number_format($row['Amount'], 2); ?></strong>
+                                            </div>
+                                        </div>
+                                        <div class = "card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                                            <form action="remove_product.php" method="post">
+                                                <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Delete</button></form>
+                                            <form action="product_edit_entry.php" method="post">
+                                                <input type="hidden" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>"></input>
+                                                <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Update</button></form>
+                                            
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class = "mb-3 mt-3">
-                                    <label for = "price" class = "form-label">Price: </label>
-                                    <input type = "text" class = "form-control" id = "price" placeholder = "Enter price" name = "price">
-                                </div>
-                                <div class = "mb-3 mt-3">
-                                    <label for = "amount" class = "form-label">Amount: </label>
-                                    <input type = "text" class = "form-control" id = "amount" placeholder = "Enter amount" name = "amount">
-                                </div>
-                                <div class = "mb-3">
-                                    <label for = "description" class = "form-label">Product description:  </label>
-                                    <input type = "text" class = "form-control" id = "description" placeholder = "Enter product description" name = "description">
-                                </div>
-                                <div class="form-group">
-                                    <label for = "uploadfile" class = "form-label">Product picture:  </label>
-                                    <input class="form-control" type="file" id = "uploadfile" name="uploadfile" >
-                                </div>
-                                <div class="form-group">
-                                    <label for = "UserID" class = "form-label">User ID:  </label>
-                                    <input class="form-control" type="text" id = "UserID" name="UserID" >
-                                </div>
-                                <button type = "submit" class = "btn btn-primary"> Submit</button>
-                            </form>
-                        </div>
-        
-                        <div class = "modal-footer">
-                            <button type = "button" class = "btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            <?php } ?>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Admin Users Table -->
-        <div class = "card">
-            <div class = "card-body">
-                All Users In The Database: 
-
-                    <?php
-                    $_UserID = $_SESSION["UserID"];
-                    $conn = mysqli_connect("localhost","root","","openplaza");
-                    $result = mysqli_query($conn,"SELECT * FROM users LIMIT 50");
-                    $data = $result->fetch_all(MYSQLI_ASSOC);
-                    ?>
-
-                    <table border="1">
-                    <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                        <th>User ID</th>
-                    </tr>
-                    <?php foreach($data as $row): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($row['Username']) ?></td>
-                        <td><?= htmlspecialchars($row['Email']) ?></td>
-                        <td><?= htmlspecialchars($row['UserID']) ?></td>
-                        <td><form action="user_remove.php" method="post">
-                            <button style="height:30px; width:100px" input type="submit" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>">Delete</button></form></td>
-                        <td><form action="profile_edit_entry.php" method="post">
-                            <button style="height:30px; width:100px" input type="submit" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>">Update</button></form></td>
-                        
-                        </tr>
-                    <?php endforeach ?>
-                    </table>
-
-            </div>
-        </div>
-        
-        <!-- Modal button to create a user -->
-        <div class = "card-footer">
-            <button type = "button" class = "btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal2">
-                Create a User
-            </button>
-        
-            <div class = "modal" id = "myModal2">
-                <div class = "modal-dialog">
-                    <div class = "modal-content">
-        
-                        <div class = "modal-header">
-                            <button type = "button" class = "btn-close" data-bs-dismiss = "modal"></button>
-                        </div>
-        
-                        <div class = "modal-body">
-                            <form action="user_add.php" method="post">
-                                <div class = "mb-3 mt-3">
-                                    <label for = "username" class = "form-label">Username: </label>
-                                    <input type = "text" class = "form-control" id = "username" placeholder = "Enter username" name = "username">
+                
+                <!-- Modal button to create product listing -->
+                <div class = "card-footer bg-success">
+                    <button type = "button" class = "btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal1">
+                        Create a Listing
+                    </button>
+                
+                    <div class = "modal" id = "myModal1">
+                        <div class = "modal-dialog">
+                            <div class = "modal-content">
+                
+                                <div class = "modal-header">
+                                    <button type = "button" class = "btn-close" data-bs-dismiss = "modal"></button>
                                 </div>
-                                <div class = "mb-3 mt-3">
-                                    <label for = "pwd" class = "form-label">Password: </label>
-                                    <input type = "password" class = "form-control" id = "pwd" placeholder = "Enter password" name = "pwd">
+                
+                                <div class = "modal-body">
+                                    <form action="add_product.php" method="post">
+                                        <div class = "mb-3 mt-3">
+                                            <label for = "product-name" class = "form-label">Product to sell: </label>
+                                            <input type = "text" class = "form-control" id = "product-name" placeholder = "Enter product name" name = "product-name">
+                                        </div>
+                                        <div class = "mb-3 mt-3">
+                                            <label for = "price" class = "form-label">Price: </label>
+                                            <input type = "text" class = "form-control" id = "price" placeholder = "Enter price" name = "price">
+                                        </div>
+                                        <div class = "mb-3 mt-3">
+                                            <label for = "amount" class = "form-label">Amount: </label>
+                                            <input type = "text" class = "form-control" id = "amount" placeholder = "Enter amount" name = "amount">
+                                        </div>
+                                        <div class = "mb-3">
+                                            <label for = "description" class = "form-label">Product description:  </label>
+                                            <input type = "text" class = "form-control" id = "description" placeholder = "Enter product description" name = "description">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for = "uploadfile" class = "form-label">Product picture:  </label>
+                                            <input class="form-control" type="file" id = "uploadfile" name="uploadfile" >
+                                        </div>
+                                        <div class="form-group">
+                                            <label for = "UserID" class = "form-label">User ID:  </label>
+                                            <input class="form-control" type="text" id = "UserID" name="UserID" >
+                                        </div>
+                                        <button type = "submit" class = "btn btn-primary"> Submit</button>
+                                    </form>
                                 </div>
-                                <div class = "mb-3 mt-3">
-                                    <label for = "email" class = "form-label">Email: </label>
-                                    <input type = "email" class = "form-control" id = "email" placeholder = "Enter email" name = "email">
+                
+                                <div class = "modal-footer">
+                                    <button type = "button" class = "btn btn-danger" data-bs-dismiss="modal">Close</button>
                                 </div>
-                                <div class = "mb-3">
-                                    <p> Are they a Customer, Vendor, or an Admin?</p>
-                                    <input type="radio" id="customer" name="usertype" value="customer">
-                                    <label for="customer">Customer</label><br>
-                                    <input type="radio" id="vendor" name="usertype" value="vendor">
-                                    <label for="vendor">Vendor</label><br>
-                                    <input type="radio" id="admin" name="usertype" value="admin">
-                                    <label for="admin">Admin</label><br>
-                                </div>
-                                <button type = "submit" class = "btn btn-primary"> Submit</button>
-                            </form>
-                        </div>
-        
-                        <div class = "modal-footer">
-                            <button type = "button" class = "btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
+                <!-- Admin Users Table -->
+                <div class = "card bg-primary">
+                    <div class = "card-body">
+                        All Users In The Database: 
 
+                            <?php
+                            $_UserID = $_SESSION["UserID"];
+                            $conn = mysqli_connect("localhost","root","","openplaza");
+                            $result = mysqli_query($conn,"SELECT * FROM users LIMIT 50");
+                            $data = $result->fetch_all(MYSQLI_ASSOC);
+                            ?>
 
+                            <div class="container px-4 px-lg-5 mt-5">
+                                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-        <!-- Admin Transactions Table -->
-        <div class = "card">
-            <div class = "card-body">
-                All Ongoing Transactions: 
+                                <?php 
+                                //Select all users:
+                                $sql = "SELECT * FROM users";
+                                $result = $conn->query($sql);
 
-                    <?php
-                    $_UserID = $_SESSION["UserID"];
-                    $conn = mysqli_connect("localhost","root","","openplaza");
-                    $result = mysqli_query($conn,"SELECT * FROM transactions LIMIT 50");
-                    $data = $result->fetch_all(MYSQLI_ASSOC);
-                    ?>
+                                //Go through list to display dynamically:
+                                while ($row = $result->fetch_assoc()) { ?>
+                                    <div class="card h-100 bg-light">
+                                        <div class="card-body p-4">
+                                            <div class="text-center">
+                                                <h5 class="fw-bolder"><?php echo htmlspecialchars($row['Username']); ?></h5>
+                                                <?php echo htmlspecialchars($row['Email']); ?><br>
+                                                <?php echo htmlspecialchars($row['UserID']); ?>
+                                                <form action="user_remove.php" method="post">
+                                                    <button style="height:30px; width:100px" input type="submit" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>">Delete</button></form>
+                                                <form action="profile_edit_entry.php" method="post">
+                                                    <button style="height:30px; width:100px" input type="submit" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>">Update</button></form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php }?>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                
+                <!-- Modal button to create a user -->
+                <div class = "card-footer bg-success">
+                    <button type = "button" class = "btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal2">
+                        Create a User
+                    </button>
+                
+                    <div class = "modal" id = "myModal2">
+                        <div class = "modal-dialog">
+                            <div class = "modal-content">
+                
+                                <div class = "modal-header">
+                                    <button type = "button" class = "btn-close" data-bs-dismiss = "modal"></button>
+                                </div>
+                
+                                <div class = "modal-body">
+                                    <form action="user_add.php" method="post">
+                                        <div class = "mb-3 mt-3">
+                                            <label for = "username" class = "form-label">Username: </label>
+                                            <input type = "text" class = "form-control" id = "username" placeholder = "Enter username" name = "username">
+                                        </div>
+                                        <div class = "mb-3 mt-3">
+                                            <label for = "pwd" class = "form-label">Password: </label>
+                                            <input type = "password" class = "form-control" id = "pwd" placeholder = "Enter password" name = "pwd">
+                                        </div>
+                                        <div class = "mb-3 mt-3">
+                                            <label for = "email" class = "form-label">Email: </label>
+                                            <input type = "email" class = "form-control" id = "email" placeholder = "Enter email" name = "email">
+                                        </div>
+                                        <div class = "mb-3">
+                                            <p> Are they a Customer, Vendor, or an Admin?</p>
+                                            <input type="radio" id="customer" name="usertype" value="customer">
+                                            <label for="customer">Customer</label><br>
+                                            <input type="radio" id="vendor" name="usertype" value="vendor">
+                                            <label for="vendor">Vendor</label><br>
+                                            <input type="radio" id="admin" name="usertype" value="admin">
+                                            <label for="admin">Admin</label><br>
+                                        </div>
+                                        <button type = "submit" class = "btn btn-primary"> Submit</button>
+                                    </form>
+                                </div>
+                
+                                <div class = "modal-footer">
+                                    <button type = "button" class = "btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                    <table border="1">
-                    <tr>
-                        <th>Transaction ID</th>
-                        <th>Product Name</th>
-                        <th>Product ID</th>
-                        <th>User ID</th>
-                        <th>Quantity</th>
-                        <th>Total Price</th>
-                        <th>Price</th>
-                        <th>Payment ID</th>
-                        <th>PAID</th>
-                    </tr>
-                    <?php foreach($data as $row): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($row['TransactionID']) ?></td>
-                        <td><?= htmlspecialchars($row['ProductName']) ?></td>
-                        <td><?= htmlspecialchars($row['ProductID']) ?></td>
-                        <td><?= htmlspecialchars($row['UserID']) ?></td>
-                        <td><?= htmlspecialchars($row['Quantity']) ?></td>
-                        <td><?= htmlspecialchars($row['TotalPrice']) ?></td>
-                        <td><?= htmlspecialchars($row['PaymentID']) ?></td>
-                        <td><?= htmlspecialchars($row['PAID']) ?></td>
-                        <td><form action="cart_increase.php" method="post">
-                                <label for="Quantity">Quantity to add></label>
-                                <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
-                                <input type="hidden" id="TransactionID" name="TransactionID" value="<?= htmlspecialchars($row['TransactionID']) ?>"></input>
-                                <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Add More</button></form></td>
-                        <td><form action="cart_remove.php" method="post">
-                                <label for="Quantity">Quantity to remove></label>
-                                <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
-                                <input type="hidden" id="TransactionID" name="TransactionID" value="<?= htmlspecialchars($row['TransactionID']) ?>"></input>
-                                <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Remove</button></form></td>
+                <!-- Admin Transactions Table -->
+                <div class = "card bg-primary">
+                    <div class = "card-body">
+                        All Ongoing Transactions: 
+
+                            <?php
+                            $_UserID = $_SESSION["UserID"];
+                            $conn = mysqli_connect("localhost","root","","openplaza");
+                            $result = mysqli_query($conn,"SELECT * FROM transactions LIMIT 50");
+                            $data = $result->fetch_all(MYSQLI_ASSOC);
+                            ?>
+
+                            <table border="1">
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Product Name</th>
+                                <th>Product ID</th>
+                                <th>User ID</th>
+                                <th>Quantity</th>
+                                <th>Total Price</th>
+                                <th>Price</th>
+                                <th>Payment ID</th>
+                                <th>PAID</th>
                             </tr>
-                    <?php endforeach ?>
-                    </table>
+                            <?php foreach($data as $row): ?>
+                            <tr>
+                                <td><?= htmlspecialchars($row['TransactionID']) ?></td>
+                                <td><?= htmlspecialchars($row['ProductName']) ?></td>
+                                <td><?= htmlspecialchars($row['ProductID']) ?></td>
+                                <td><?= htmlspecialchars($row['UserID']) ?></td>
+                                <td><?= htmlspecialchars($row['Quantity']) ?></td>
+                                <td><?= htmlspecialchars($row['TotalPrice']) ?></td>
+                                <td><?= htmlspecialchars($row['PaymentID']) ?></td>
+                                <td><?= htmlspecialchars($row['PAID']) ?></td>
+                                <td><form action="cart_increase.php" method="post">
+                                        <label for="Quantity">Quantity to add></label>
+                                        <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
+                                        <input type="hidden" id="TransactionID" name="TransactionID" value="<?= htmlspecialchars($row['TransactionID']) ?>"></input>
+                                        <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Add More</button></form></td>
+                                <td><form action="cart_remove.php" method="post">
+                                        <label for="Quantity">Quantity to remove></label>
+                                        <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
+                                        <input type="hidden" id="TransactionID" name="TransactionID" value="<?= htmlspecialchars($row['TransactionID']) ?>"></input>
+                                        <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Remove</button></form></td>
+                                    </tr>
+                            <?php endforeach ?>
+                            </table>
 
-            </div>
-        </div>
+                    </div>
+                </div>
 
-        <!-- Modal button to create a transaction -->
-        <div class = "card-footer">
-            <button type = "button" class = "btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal4">
-                Create a Transaction
-            </button>
-        
-            <div class = "modal" id = "myModal4">
-                <div class = "modal-dialog">
-                    <div class = "modal-content">
-        
-                        <div class = "modal-header">
-                            <button type = "button" class = "btn-close" data-bs-dismiss = "modal"></button>
-                        </div>
-        
-                        <div class = "modal-body">
-                            <form action="add_cart.php" method="post">
-                                <div class = "mb-3 mt-3">
-                                    <label for = "ProductID" class = "form-label">Product ID: </label>
-                                    <input type = "text" class = "form-control" id = "ProductID" placeholder = "Enter ProductID" name = "ProductID">
+                <!-- Modal button to create a transaction -->
+                <div class = "card-footer bg-success">
+                    <button type = "button" class = "btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal4">
+                        Create a Transaction
+                    </button>
+                
+                    <div class = "modal" id = "myModal4">
+                        <div class = "modal-dialog">
+                            <div class = "modal-content">
+                
+                                <div class = "modal-header">
+                                    <button type = "button" class = "btn-close" data-bs-dismiss = "modal"></button>
                                 </div>
-                                <div class = "mb-3 mt-3">
-                                    <label for = "UserID" class = "form-label">User ID: </label>
-                                    <input type = "text" class = "form-control" id = "UserID" placeholder = "Enter UserID" name = "UserID">
+                
+                                <div class = "modal-body">
+                                    <form action="add_cart.php" method="post">
+                                        <div class = "mb-3 mt-3">
+                                            <label for = "ProductID" class = "form-label">Product ID: </label>
+                                            <input type = "text" class = "form-control" id = "ProductID" placeholder = "Enter ProductID" name = "ProductID">
+                                        </div>
+                                        <div class = "mb-3 mt-3">
+                                            <label for = "UserID" class = "form-label">User ID: </label>
+                                            <input type = "text" class = "form-control" id = "UserID" placeholder = "Enter UserID" name = "UserID">
+                                        </div>
+                                        <div class = "mb-3 mt-3">
+                                            <label for = "Quantity" class = "form-label">Quantity: </label>
+                                            <input type = "text" class = "form-control" id = "Quantity" placeholder = "Enter Quantity" name = "Quantity">
+                                        </div>
+                                        <button type = "submit" class = "btn btn-primary"> Submit</button>
+                                    </form>
                                 </div>
-                                <div class = "mb-3 mt-3">
-                                    <label for = "Quantity" class = "form-label">Quantity: </label>
-                                    <input type = "text" class = "form-control" id = "Quantity" placeholder = "Enter Quantity" name = "Quantity">
+                
+                                <div class = "modal-footer">
+                                    <button type = "button" class = "btn btn-danger" data-bs-dismiss="modal">Close</button>
                                 </div>
-                                <button type = "submit" class = "btn btn-primary"> Submit</button>
-                            </form>
-                        </div>
-        
-                        <div class = "modal-footer">
-                            <button type = "button" class = "btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
 
 
-<?php } ?>
+        <?php } ?>
 
 
-<!-- Start of Vendor Stuff -->
-<?php if(isset($_SESSION["VendorID"])) { ?>
+        <!-- Start of Vendor Stuff -->
+        <?php if(isset($_SESSION["VendorID"])) { ?>
 
-<div class = "card">
-    <div class = "card-body">
-    <div class = "card">
+        <div class = "card bg-primary">
             <div class = "card-body">
-            <h3>Your Vendor Panel</h3>
-                Your Products for Sale: 
-                    <?php
-                    $_UserID = $_SESSION["UserID"];
-                    $conn = mysqli_connect("localhost","root","","openplaza");
-                    $result = mysqli_query($conn,"SELECT * FROM products WHERE UserID='$_UserID' LIMIT 50");
-                    $data = $result->fetch_all(MYSQLI_ASSOC);
-                    ?>
+            <div class = "card">
+                    <div class = "card-body">
+                    <h3>Your Vendor Panel</h3>
+                        Your Products for Sale: 
+                            <?php
+                            $_UserID = $_SESSION["UserID"];
+                            $conn = mysqli_connect("localhost","root","","openplaza");
+                            $result = mysqli_query($conn,"SELECT * FROM products WHERE UserID='$_UserID' LIMIT 50");
+                            $data = $result->fetch_all(MYSQLI_ASSOC);
+                            ?>
+                        <div class="container px-4 px-lg-5 mt-5">
+                            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-                    <table border="1">
-                    <tr>
-                        <th>Product Name</th>
-                        <th>Price</th>
-                        <th>Amount</th>
-                        <th>Description</th>
-                        <th>Action</th>
-                    </tr>
-                    <?php foreach($data as $row): ?>
-                    <tr>
-                        <td><?= htmlspecialchars($row['ProductName']) ?></td>
-                        <td><?= htmlspecialchars($row['Price']) ?></td>
-                        <td><?= htmlspecialchars($row['Amount']) ?></td>
-                        <td><?= htmlspecialchars($row['Description']) ?></td>
-                        <td><form action="remove_product.php" method="post">
-                            <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Delete</button></form></td>
-                        <td><form action="product_edit_entry.php" method="post">
-                            <input type="hidden" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>"></input>
-                            <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Update</button></form></td>
-                        
-                        </tr>
-                    <?php endforeach ?>
-                    </table>
+                            <?php 
 
-            </div>
-        </div>
-        <!-- Vendor modal button -->
-        <div class = "card-footer">
-            <button type = "button" class = "btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal3">
-                Create a Listing
-            </button>
-        
-            <div class = "modal" id = "myModal3">
-                <div class = "modal-dialog">
-                    <div class = "modal-content">
-        
-                        <div class = "modal-header">
-                            <button type = "button" class = "btn-close" data-bs-dismiss = "modal"></button>
+                            //Selecting all items
+                            $sql = "SELECT ProductName, Amount, ImagePath, Description, ProductID FROM products WHERE UserID='$_UserID'";
+                            $result = $conn->query($sql);
+                            
+                            //Go through list to display them dynamically
+                            while ($row = $result->fetch_assoc()) { ?>
+                                <div class="col mb-5">
+                                    <div class="card h-100 bg-light">
+                                        <!-- Product image -->
+                                        <img class="img-thumbnail" src="<?php echo './Images/' . $row['ImagePath']; ?>" alt="Product Image" style="height: 300px; object-fit: cover;" />
+
+                                        <!-- Product details -->
+                                        <div class="card-body p-4">
+                                            <div class="text-center">
+                                                <h5 class="fw-bolder"><?php echo htmlspecialchars($row['ProductName']); ?></h5>
+                                                <?php echo htmlspecialchars($row['Description']); ?><br>
+                                                <strong>$<?php echo number_format($row['Amount'], 2); ?></strong>
+                                            </div>
+                                        </div>
+                                        <div class = "card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                                            <form action="remove_product.php" method="post">
+                                                <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Delete</button></form>
+                                            <form action="product_edit_entry.php" method="post">
+                                                <input type="hidden" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>"></input>
+                                                <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Update</button></form>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                            </div>
                         </div>
-        
-                        <div class = "modal-body">
-                            <form action="add_product.php" method="post" enctype="multipart/form-data">
-                                <div class = "mb-3 mt-3">
-                                    <label for = "product-name" class = "form-label">Product to sell: </label>
-                                    <input type = "text" class = "form-control" id = "product-name" placeholder = "Enter product name" name = "product-name">
+
+                    </div>
+                </div>
+                <!-- Vendor modal button -->
+                <div class = "card-footer">
+                    <button type = "button" class = "btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal3">
+                        Create a Listing
+                    </button>
+                
+                    <div class = "modal" id = "myModal3">
+                        <div class = "modal-dialog">
+                            <div class = "modal-content">
+                
+                                <div class = "modal-header">
+                                    <button type = "button" class = "btn-close" data-bs-dismiss = "modal"></button>
                                 </div>
-                                <div class = "mb-3 mt-3">
-                                    <label for = "price" class = "form-label">Price: </label>
-                                    <input type = "text" class = "form-control" id = "price" placeholder = "Enter price" name = "price">
+                
+                                <div class = "modal-body">
+                                    <form action="add_product.php" method="post" enctype="multipart/form-data">
+                                        <div class = "mb-3 mt-3">
+                                            <label for = "product-name" class = "form-label">Product to sell: </label>
+                                            <input type = "text" class = "form-control" id = "product-name" placeholder = "Enter product name" name = "product-name">
+                                        </div>
+                                        <div class = "mb-3 mt-3">
+                                            <label for = "price" class = "form-label">Price: </label>
+                                            <input type = "text" class = "form-control" id = "price" placeholder = "Enter price" name = "price">
+                                        </div>
+                                        <div class = "mb-3 mt-3">
+                                            <label for = "amount" class = "form-label">Amount: </label>
+                                            <input type = "text" class = "form-control" id = "amount" placeholder = "Enter amount" name = "amount">
+                                        </div>
+                                        <div class = "mb-3">
+                                            <label for = "description" class = "form-label">Product description:  </label>
+                                            <input type = "text" class = "form-control" id = "description" placeholder = "Enter product description" name = "description">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for = "uploadfile" class = "form-label">Product picture:  </label>
+                                            <input class="form-control" type="file" id = "uploadfile" name="uploadfile" >
+                                        </div>
+                                        <button type = "submit" class = "btn btn-primary"> Submit</button>
+                                    </form>
                                 </div>
-                                <div class = "mb-3 mt-3">
-                                    <label for = "amount" class = "form-label">Amount: </label>
-                                    <input type = "text" class = "form-control" id = "amount" placeholder = "Enter amount" name = "amount">
+                
+                                <div class = "modal-footer">
+                                    <button type = "button" class = "btn btn-danger" data-bs-dismiss="modal">Close</button>
                                 </div>
-                                <div class = "mb-3">
-                                    <label for = "description" class = "form-label">Product description:  </label>
-                                    <input type = "text" class = "form-control" id = "description" placeholder = "Enter product description" name = "description">
-                                </div>
-                                <div class="form-group">
-                                    <label for = "uploadfile" class = "form-label">Product picture:  </label>
-                                    <input class="form-control" type="file" id = "uploadfile" name="uploadfile" >
-                                </div>
-                                <button type = "submit" class = "btn btn-primary"> Submit</button>
-                            </form>
-                        </div>
-        
-                        <div class = "modal-footer">
-                            <button type = "button" class = "btn btn-danger" data-bs-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
 
-    </div>
-</div>
-
-<?php } ?>
+        <?php } ?>
 
         
 
