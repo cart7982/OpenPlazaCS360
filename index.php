@@ -62,6 +62,17 @@
             </div>
         </header>
 
+        <!-- Section-->
+        <section class="py-5">
+            <div class = "text-center">
+                <h1>Welcome to OpenPlaza!</h1>
+            </div>
+            <div class = "text-center">
+                <h6>We promise a degree of privacy and security due to the fact that we have NO corporate sponsors <br>
+                and NO ads whatsoever!  Nobody is attempting to buy or sell your data!</h6>
+            </div>
+        
+        </section>
 
 
         <!-- Section -->
@@ -127,69 +138,6 @@
         </section>
 
 
-
-
-
-
-
-        <!-- Section-->
-        <section class="py-5">
-            
-        <div class = "card">
-            <div class = "card-header">
-                Welcome to OpenPlaza!
-            </div>
-            <div class = "card-body">
-                We promise a degree of privacy and security due to the fact that we have NO corporate sponsors <br>
-                and NO ads whatsoever!  Nobody is attempting to buy or sell your data!
-            </div>
-            <div class = "card-body">
-                The Grand Marketplace:
-            </div>
-        </div>
-
-        <?php
-        if(isset($_SESSION['UserID']))
-        {
-            $_UserID = $_SESSION["UserID"];
-
-            //$conn = mysqli_connect("localhost","root","","openplaza");
-            $result = mysqli_query($conn,"SELECT * FROM products WHERE UserID!='$_UserID' LIMIT 50");
-            $data = $result->fetch_all(MYSQLI_ASSOC);
-        }
-        else
-        {
-            session_unset();
-            session_destroy();
-            //$conn = mysqli_connect("localhost","root","","openplaza");
-            $result = mysqli_query($conn,"SELECT * FROM products LIMIT 50");
-            $data = $result->fetch_all(MYSQLI_ASSOC);
-        }
-        ?>
-
-        <table border="1">
-        <tr>
-            <th>Product Name</th>
-            <th>Price</th>
-            <th>Amount</th>
-            <th>Description</th>
-            <th>Action</th>
-        </tr>
-        <?php foreach($data as $row): ?>
-        <tr>
-            <td><?= htmlspecialchars($row['ProductName']) ?></td>
-            <td><?= htmlspecialchars($row['Price']) ?></td>
-            <td><?= htmlspecialchars($row['Amount']) ?></td>
-            <td><?= htmlspecialchars($row['Description']) ?></td>
-            <td><form action="add_cart.php" method="post">
-                <label for="Quantity">Quantity></label>
-                <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
-                <button style="height:30px; width:150px" input type="submit" name="ProductID" value="<?= $row['ProductID'] ?>">Add to Cart</button></form></td>
-            </tr>
-        <?php endforeach ?>
-        </table>       
-        
-        </section>
         <!-- Footer-->
         <footer class="py-5 bg-dark">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; OpenPlaza 2025</p></div>
