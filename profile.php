@@ -70,16 +70,15 @@
             </div>
         </div>
 
+        <!-- Start of Admin Panel -->
         <?php if(isset($_SESSION["AdminID"])) { ?>
-                <!-- Admin Products Table-->
-                <div class = "card bg-primary">
-                    <h3>Your Admin Panel</h3>
-                    <div class = "card-body">
-                        All Products for Sale: 
-
-
-<!-- Modal button to create product listing -->
-<div class = "card-footer bg-success">
+            <!-- Admin Products Table-->
+            <div class = "card bg-primary">
+                <h3>Your Admin Panel</h3>
+                <div class = "card-body">
+                    All Products for Sale: 
+            <!-- Modal button to create product listing -->
+                <div class = "card-footer bg-success">
                     <button type = "button" class = "btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal1">
                         Create a Listing
                     </button>
@@ -130,62 +129,57 @@
                     </div>
                 </div>
 
-                            <!-- Start of product list -->
-                            <?php
-                            $_UserID = $_SESSION["UserID"];
-                            $conn = mysqli_connect("localhost","root","","openplaza");
-                            ?>
+            <!-- Start of product list -->
+                <?php
+                $_UserID = $_SESSION["UserID"];
+                $conn = mysqli_connect("localhost","root","","openplaza");
+                ?>
 
-                        <div class="container px-4 px-lg-5 mt-5">
-                            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div class="container px-4 px-lg-5 mt-5">
+                    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-                            <?php 
+                    <?php 
 
-                            //Selecting all items
-                            $sql = "SELECT * FROM products";
-                            $result = $conn->query($sql);
+                    //Selecting all items
+                    $sql = "SELECT * FROM products";
+                    $result = $conn->query($sql);
                             
-                            //Go through list to display them dynamically
-                            while ($row = $result->fetch_assoc()) { ?>
-                                <div class="col mb-5">
-                                    <div class="card h-100 bg-light">
-                                        <!-- Product image -->
-                                        <img class="img-thumbnail" src="<?php echo './Images/' . $row['ImagePath']; ?>" alt="Product Image" style="height: 300px; object-fit: cover;" />
+                    //Go through list to display them dynamically
+                    while ($row = $result->fetch_assoc()) { ?>
+                        <div class="col mb-5">
+                            <div class="card h-100 bg-light">
+                                <!-- Product image -->
+                                <img class="img-thumbnail" src="<?php echo './Images/' . $row['ImagePath']; ?>" alt="Product Image" style="height: 300px; object-fit: cover;" />
 
-                                        <!-- Product details -->
-                                        <div class="card-body p-4">
-                                            <div class="text-center">
-                                                <h5 class="fw-bolder"><?php echo htmlspecialchars($row['ProductName']); ?></h5>
-                                                <?php echo "Description: <br>".htmlspecialchars($row['Description']); ?><br>
-                                                <?php echo "Quantity in inventory: <br>".htmlspecialchars($row['Amount']); ?><br>
-                                                <strong>Price each: <br>$<?php echo number_format($row['Price'], 2); ?></strong>
-                                            </div>
-                                        </div>
-                                        <div class = "card-footer p-4 pt-0 border-top-0 bg-transparent ">
-                                            <form action="remove_product.php" method="post">
-                                                <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Delete</button></form>
-                                            <form action="product_edit_entry.php" method="post">
-                                                <input type="hidden" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>"></input>
-                                                <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Update</button></form>
-                                            
-                                        </div>
+                                <!-- Product details -->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <h5 class="fw-bolder"><?php echo htmlspecialchars($row['ProductName']); ?></h5>
+                                        <?php echo "Description: <br>".htmlspecialchars($row['Description']); ?><br>
+                                        <?php echo "Quantity in inventory: <br>".htmlspecialchars($row['Amount']); ?><br>
+                                        <strong>Price each: <br>$<?php echo number_format($row['Price'], 2); ?></strong>
                                     </div>
                                 </div>
-                            <?php } ?>
+                                <div class = "card-footer p-4 pt-0 border-top-0 bg-transparent ">
+                                    <form action="remove_product.php" method="post">
+                                        <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Delete</button></form>
+                                    <form action="product_edit_entry.php" method="post">
+                                        <input type="hidden" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>"></input>
+                                        <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Update</button></form>
+                                            
+                                </div>
                             </div>
                         </div>
+                    <?php } ?>
                     </div>
                 </div>
+                </div>
+            </div>
                 
-                
-
-
-
-
-                <!-- Admin Users Table -->
-                <div class = "card bg-primary">
-                    <div class = "card-body">
-                        All Users In The Database: 
+            <!-- Admin Users Table -->
+            <div class = "card bg-primary">
+                <div class = "card-body">
+                    All Users In The Database: 
 
                 <!-- Modal button to create a user -->
                 <div class = "card-footer bg-success">
@@ -235,54 +229,48 @@
                         </div>
                     </div>
                 </div>
-                            <!-- Start of admin users list -->
-                            <?php
-                            $_UserID = $_SESSION["UserID"];
-                            $conn = mysqli_connect("localhost","root","","openplaza");
-                            $result = mysqli_query($conn,"SELECT * FROM users LIMIT 50");
-                            $data = $result->fetch_all(MYSQLI_ASSOC);
-                            ?>
 
-                            <div class="container px-4 px-lg-5 mt-5">
-                                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <!-- Start of admin users list -->
+                    <?php
+                    $_UserID = $_SESSION["UserID"];
+                    $conn = mysqli_connect("localhost","root","","openplaza");
+                    $result = mysqli_query($conn,"SELECT * FROM users LIMIT 50");
+                    $data = $result->fetch_all(MYSQLI_ASSOC);
+                    ?>
 
-                                <?php 
-                                //Select all users:
-                                $sql = "SELECT * FROM users";
-                                $result = $conn->query($sql);
+                    <div class="container px-4 px-lg-5 mt-5">
+                        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
-                                //Go through list to display dynamically:
-                                while ($row = $result->fetch_assoc()) { ?>
-                                    <div class="card h-100 bg-light">
-                                        <div class="card-body p-4">
-                                            <div class="text-center">
-                                                <h5 class="fw-bolder"><?php echo htmlspecialchars($row['Username']); ?></h5>
-                                                <?php echo htmlspecialchars($row['Email']); ?><br>
-                                                <?php echo htmlspecialchars($row['UserID']); ?>
-                                                <form action="user_remove.php" method="post">
-                                                    <button style="height:30px; width:100px" input type="submit" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>">Delete</button></form>
-                                                <form action="profile_edit_entry.php" method="post">
-                                                    <button style="height:30px; width:100px" input type="submit" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>">Update</button></form>
-                                            </div>
+                            <?php 
+                            //Select all users:
+                            $sql = "SELECT * FROM users";
+                            $result = $conn->query($sql);
+
+                            //Go through list to display dynamically:
+                            while ($row = $result->fetch_assoc()) { ?>
+                                <div class="card h-100 bg-light">
+                                    <div class="card-body p-4">
+                                        <div class="text-center">
+                                            <h5 class="fw-bolder"><?php echo htmlspecialchars($row['Username']); ?></h5>
+                                            <?php echo htmlspecialchars($row['Email']); ?><br>
+                                            <?php echo htmlspecialchars($row['UserID']); ?>
+                                            <form action="user_remove.php" method="post">
+                                                <button style="height:30px; width:100px" input type="submit" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>">Delete</button></form>
+                                            <form action="profile_edit_entry.php" method="post">
+                                                <button style="height:30px; width:100px" input type="submit" name="UserID" value="<?= htmlspecialchars($row['UserID']) ?>">Update</button></form>
                                         </div>
                                     </div>
-                                <?php }?>
                                 </div>
-                            </div>
+                            <?php }?>
+                        </div>
                     </div>
                 </div>
+            </div>
                 
-
-
-
-
-
-                <!-- Admin Transactions Table -->
-                <div class = "card bg-primary">
-                    <div class = "card-body">
-                        All Ongoing Transactions: 
-
-
+            <!-- Admin Transactions Table -->
+            <div class = "card bg-primary">
+                <div class = "card-body">
+                    All Ongoing Transactions: 
 
                 <!-- Modal button to create a transaction -->
                 <div class = "card-footer bg-success">
@@ -293,7 +281,6 @@
                     <div class = "modal" id = "myModal4">
                         <div class = "modal-dialog">
                             <div class = "modal-content">
-                
                                 <div class = "modal-header">
                                     <button type = "button" class = "btn-close" data-bs-dismiss = "modal"></button>
                                 </div>
@@ -324,63 +311,52 @@
                     </div>
                 </div>
 
+                <?php
+                $_UserID = $_SESSION["UserID"];
+                $conn = mysqli_connect("localhost","root","","openplaza");
+                $result = mysqli_query($conn,"SELECT * FROM transactions LIMIT 50");
+                $data = $result->fetch_all(MYSQLI_ASSOC);
+                ?>
 
+                <table border="1">
+                <tr>
+                    <th>Transaction ID</th>
+                    <th>Product Name</th>
+                    <th>Product ID</th>
+                    <th>User ID</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                    <th>Price</th>
+                    <th>Payment ID</th>
+                    <th>PAID</th>
+                </tr>
+                <?php foreach($data as $row): ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['TransactionID']) ?></td>
+                    <td><?= htmlspecialchars($row['ProductName']) ?></td>
+                    <td><?= htmlspecialchars($row['ProductID']) ?></td>
+                    <td><?= htmlspecialchars($row['UserID']) ?></td>
+                    <td><?= htmlspecialchars($row['Quantity']) ?></td>
+                    <td><?= htmlspecialchars($row['TotalPrice']) ?></td>
+                    <td><?= htmlspecialchars($row['PaymentID']) ?></td>
+                    <td><?= htmlspecialchars($row['PAID']) ?></td>
+                    <td><form action="cart_increase.php" method="post">
+                        <label for="Quantity">Quantity to add></label>
+                            <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
+                            <input type="hidden" id="TransactionID" name="TransactionID" value="<?= htmlspecialchars($row['TransactionID']) ?>"></input>
+                            <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Add More</button></form></td>
+                    <td><form action="cart_remove.php" method="post">
+                        <label for="Quantity">Quantity to remove></label>
+                            <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
+                            <input type="hidden" id="TransactionID" name="TransactionID" value="<?= htmlspecialchars($row['TransactionID']) ?>"></input>
+                            <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Remove</button></form></td>
+                </tr>
+                <?php endforeach ?>
+                </table>
 
-
-
-
-
-                            <?php
-                            $_UserID = $_SESSION["UserID"];
-                            $conn = mysqli_connect("localhost","root","","openplaza");
-                            $result = mysqli_query($conn,"SELECT * FROM transactions LIMIT 50");
-                            $data = $result->fetch_all(MYSQLI_ASSOC);
-                            ?>
-
-                            <table border="1">
-                            <tr>
-                                <th>Transaction ID</th>
-                                <th>Product Name</th>
-                                <th>Product ID</th>
-                                <th>User ID</th>
-                                <th>Quantity</th>
-                                <th>Total Price</th>
-                                <th>Price</th>
-                                <th>Payment ID</th>
-                                <th>PAID</th>
-                            </tr>
-                            <?php foreach($data as $row): ?>
-                            <tr>
-                                <td><?= htmlspecialchars($row['TransactionID']) ?></td>
-                                <td><?= htmlspecialchars($row['ProductName']) ?></td>
-                                <td><?= htmlspecialchars($row['ProductID']) ?></td>
-                                <td><?= htmlspecialchars($row['UserID']) ?></td>
-                                <td><?= htmlspecialchars($row['Quantity']) ?></td>
-                                <td><?= htmlspecialchars($row['TotalPrice']) ?></td>
-                                <td><?= htmlspecialchars($row['PaymentID']) ?></td>
-                                <td><?= htmlspecialchars($row['PAID']) ?></td>
-                                <td><form action="cart_increase.php" method="post">
-                                        <label for="Quantity">Quantity to add></label>
-                                        <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
-                                        <input type="hidden" id="TransactionID" name="TransactionID" value="<?= htmlspecialchars($row['TransactionID']) ?>"></input>
-                                        <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Add More</button></form></td>
-                                <td><form action="cart_remove.php" method="post">
-                                        <label for="Quantity">Quantity to remove></label>
-                                        <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
-                                        <input type="hidden" id="TransactionID" name="TransactionID" value="<?= htmlspecialchars($row['TransactionID']) ?>"></input>
-                                        <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Remove</button></form></td>
-                                    </tr>
-                            <?php endforeach ?>
-                            </table>
-
-                    </div>
                 </div>
-
-
-
-
+            </div>
         <?php } ?>
-
 
         <!-- Start of Vendor Panel -->
         <?php if(isset($_SESSION["VendorID"])) { ?>
@@ -388,10 +364,9 @@
         <div class = "card bg-primary">
             <div class = "card-body">
             <div class = "card">
-                    <div class = "card-body">
+                <div class = "card-body">
                     <h3>Your Vendor Panel</h3>
                         Your Products for Sale: 
-
 
                     <!-- Vendor modal button -->
                     <div class = "card-footer">
@@ -400,8 +375,7 @@
                         </button>                    
                         <div class = "modal" id = "myModal3">
                             <div class = "modal-dialog">
-                                <div class = "modal-content">
-                    
+                                <div class = "modal-content">                   
                                     <div class = "modal-header">
                                         <button type = "button" class = "btn-close" data-bs-dismiss = "modal"></button>
                                     </div>
@@ -440,16 +414,15 @@
                         </div>
                     </div>
 
-                        <!-- Start of vendor product list -->
-                        <?php
-                        $_UserID = $_SESSION["UserID"];
-                        $conn = mysqli_connect("localhost","root","","openplaza");
-                        ?>
-                        <div class="container px-4 px-lg-5 mt-5">
-                            <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    <!-- Start of vendor product list -->
+                    <?php
+                    $_UserID = $_SESSION["UserID"];
+                    $conn = mysqli_connect("localhost","root","","openplaza");
+                    ?>
+                    <div class="container px-4 px-lg-5 mt-5">
+                        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
                             <?php 
-
                             //Selecting all items
                             $sql = "SELECT * FROM products WHERE UserID='$_UserID'";
                             $result = $conn->query($sql);
@@ -481,19 +454,16 @@
                                     </div>
                                 </div>
                             <?php } ?>
-                            </div>
                         </div>
-
                     </div>
                 </div>
+            </div>
 
                 
             </div>
         </div>
 
         <?php } ?>
-
-        
 
         </section>
 

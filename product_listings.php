@@ -120,9 +120,9 @@
                                 <div class="text-center">
                                     
                                     <form action="add_cart.php" method="post">
-                                        <label for="Quantity">Quantity></label>
+                                        <label for="Quantity">Quantity:</label>
                                         <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
-                                        <button class="btn btn-outline-dark mt-auto" style="height:30px; width:150px" type="submit" name="ProductID" value="<?= $row['ProductID'] ?>">Add to Cart</button>
+                                        <button class="btn btn-secondary mt-auto" style="height:30px; width:150px" type="submit" name="ProductID" value="<?= $row['ProductID'] ?>">Add to Cart</button>
                                     </form>
                                     
                                 </div>
