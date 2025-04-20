@@ -81,6 +81,18 @@ else
     echo "No price found!";
 }
 
+if(isset($_POST['description']) && $_Price != null && $_Price != '')
+{    
+    $stmt = $conn->prepare("UPDATE Products SET Description=? WHERE ProductID='$_ProductID'");
+    $stmt->bind_param("s", $_Description);
+    $stmt->execute();
+    $stmt->close();
+}
+else
+{
+    echo "No price found!";
+}
+
 if($_SESSION["AdminID"] != '0' && $_SESSION["AdminID"] != "" && isset($_SESSION["AdminID"]))
 {
     if(isset($_POST['UserID']) && $_UserID != null && $_UserID != '')

@@ -26,7 +26,7 @@ $_Email = $_POST['email'];
 
 
 //If the user ID has been posted, set that instead (for admin use):
-if(isset($_SESSION["AdminID"]) && $_SESSION["AdminID"] != null && $_SESSION["AdminID"] != "")
+if(isset($_POST["UserID"]) && $_SESSION["AdminID"] != null && $_SESSION["AdminID"] != "")
 {
     $_UserID = $_POST["UserID"];
     $_NewUserID = $_POST["NewUserID"];
@@ -59,7 +59,9 @@ if(isset($_SESSION["AdminID"]) && $_SESSION["AdminID"] != null && $_SESSION["Adm
         $stmt->execute();
         $stmt->close();
     }
-
+    //Unsetting to let the admin be able to edit their own profile info normally
+    unset($_POST["UserID"]);
+    unset($_POST["NewUserID"]);
 }
 else
 {
