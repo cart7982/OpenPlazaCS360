@@ -91,13 +91,13 @@
                     $_UserID = $_SESSION["UserID"];
 
                     //Fetch products
-                    $sql = "SELECT ProductName, Amount, ImagePath, Description, ProductID FROM products WHERE UserID!='$_UserID'";
+                    $sql = "SELECT * FROM products WHERE UserID!='$_UserID'";
                     $result = $conn->query($sql);
                 }
                 else
                 {
                     //Fetch products
-                    $sql = "SELECT ProductName, Amount, ImagePath, Description, ProductID FROM products";
+                    $sql = "SELECT * FROM products";
                     $result = $conn->query($sql);
                 }
                 
@@ -112,8 +112,9 @@
                             <div class="card-body p-4">
                                 <div class="text-center">
                                     <h5 class="fw-bolder"><?php echo htmlspecialchars($row['ProductName']); ?></h5>
-                                    <?php echo htmlspecialchars($row['Description']); ?><br>
-                                    <strong>$<?php echo number_format($row['Amount'], 2); ?></strong>
+                                    <?php echo "Description: <br>".htmlspecialchars($row['Description']); ?><br>
+                                    <?php echo "Left in Stock: <br>".htmlspecialchars($row['Amount']); ?><br>
+                                    <strong>Price each: <br>$<?php echo number_format($row['Price'], 2); ?></strong>
                                 </div>
                             </div>
 

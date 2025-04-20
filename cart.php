@@ -87,7 +87,7 @@
                 }
                 ?>
 
-<div class="container px-4 px-lg-5 mt-5">
+            <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
 
                 <?php 
@@ -98,13 +98,17 @@
                     $_UserID = $_SESSION["UserID"];
 
                     //Fetch products
-                    $sql = "SELECT ProductName, Amount, ImagePath, Description, ProductID FROM products WHERE UserID='$_UserID'";
-                    $result = $conn->query($sql);
-                }
-                else
-                {
-                    //Fetch products
-                    $sql = "SELECT ProductName, Amount, ImagePath, Description, ProductID FROM products";
+                    $sql = "SELECT products.Description AS Description,
+                                    products.ImagePath AS ImagePath,
+                                    transactions.Quantity AS Amount,
+                                    products.ProductName AS ProductName,
+                                    transactions.Price as Price,
+                                    transactions.TotalPrice AS TotalPrice,
+                                    transactions.TransactionID as TransactionID,
+                                    products.ProductID as ProductID
+                                     FROM products JOIN transactions 
+                                     ON products.ProductID = transactions.ProductID
+                                     WHERE transactions.UserID='$_UserID'";
                     $result = $conn->query($sql);
                 }
                 
@@ -120,22 +124,23 @@
                                 <div class="text-center">
                                     <h5 class="fw-bolder"><?php echo htmlspecialchars($row['ProductName']); ?></h5>
                                     <?php echo htmlspecialchars($row['Description']); ?><br>
-                                    <strong>$<?php echo number_format($row['Amount'], 2); ?></strong>
+                                    <?php echo "Quantity: ".htmlspecialchars($row['Amount']); ?><br>
+                                    <?php echo "Each: $".number_format($row['Price'], 2); ?><br>
+                                    <strong>$<?php echo number_format($row['TotalPrice'], 2); ?></strong>
+                                    <form action="cart_increase.php" method="post">
+                                            <label for="Quantity">Quantity to Add </label><br>
+                                            <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input><br>
+                                            <input type="hidden" id="TransactionID" name="TransactionID" value="<?= htmlspecialchars($row['TransactionID']) ?>"></input>
+                                            <button style="height:30px; width:120px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Add More</button></form>
+                                    <form action="cart_remove.php" method="post">
+                                            <label for="Quantity">Quantity to Remove</label>
+                                            <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input><br>
+                                            <input type="hidden" id="TransactionID" name="TransactionID" value="<?= htmlspecialchars($row['TransactionID']) ?>"></input>
+                                            <button style="height:30px; width:100px" input type="submit" name="ProductID" value="<?= htmlspecialchars($row['ProductID']) ?>">Remove</button></form>
+                                        
                                 </div>
                             </div>
 
-                            <!-- Product actions -->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center">
-                                    
-                                    <form action="add_cart.php" method="post">
-                                        <label for="Quantity">Quantity></label>
-                                        <input style="height:30px; width:100px" id="Quantity" name="Quantity"></input>
-                                        <button class="btn btn-outline-dark mt-auto" style="height:30px; width:150px" type="submit" name="ProductID" value="<?= $row['ProductID'] ?>">Add to Cart</button>
-                                    </form>
-                                    
-                                </div>
-                            </div>
                         </div>
                     </div>
                 <?php } ?>
