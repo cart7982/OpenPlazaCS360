@@ -61,7 +61,7 @@
         <section class="py-5">
         <div class="card bg-primary">
             <div class = "card-header bg-secondary">
-                Welcome to your cart!  <br>
+                <h2>Welcome to your cart!</h2>  <br>
                 Items you have selected for purchase will appear here.
             </div>
             <div class = "card-body">
@@ -86,6 +86,7 @@
                     echo "Nothing in Your Cart!";
                 }
                 ?>
+
 
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -151,7 +152,7 @@
             </div>
             </div>
             <div class = "card-body">                
-                <a class="dropbtn" href = "checkout.php" class="dropbtn">Checkout</a>
+                <button style="height:30px; width:170px; background-color: #0d6efd; color: white;" class="dropbtn" href = "checkout.php">Checkout</button>
             </div>
         </div>
 
