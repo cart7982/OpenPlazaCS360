@@ -31,7 +31,8 @@ $ID = intval(preg_replace('/[^0-9]+/','', $_ProductID), 10);
 
 //$sql = "DELETE FROM transactions WHERE ProductID='$ID'";
 
-//Get the current amount of the product in the transaction
+//Get the current amount of the product in the transaction.
+//Queries like this don't need to be hardened using $stmt prepare since they are only using internal IDs.
 $result = mysqli_query($conn, "SELECT Quantity as amount FROM transactions WHERE ProductID='$_ProductID' AND TransactionID='$_TransactionID'");
 $row = mysqli_fetch_array($result);
 $Amount = $row['amount'];

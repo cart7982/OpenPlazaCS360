@@ -318,7 +318,7 @@
                 $data = $result->fetch_all(MYSQLI_ASSOC);
                 ?>
 
-                <table border="1">
+                <table class="table table-striped table-hover table-bordered" border="1">
                 <tr>
                     <th>Transaction ID</th>
                     <th>Product Name</th>
@@ -338,6 +338,7 @@
                     <td><?= htmlspecialchars($row['UserID']) ?></td>
                     <td><?= htmlspecialchars($row['Quantity']) ?></td>
                     <td><?= htmlspecialchars($row['TotalPrice']) ?></td>
+                    <td><?= htmlspecialchars($row['Price']) ?></td>
                     <td><?= htmlspecialchars($row['PaymentID']) ?></td>
                     <td><?= htmlspecialchars($row['PAID']) ?></td>
                     <td><form action="cart_increase.php" method="post">

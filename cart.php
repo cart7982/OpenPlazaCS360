@@ -92,12 +92,14 @@
 
                 <?php 
 
-                //
+                //Check if a user is logged in... probably redundant.
                 if(isset($_SESSION['UserID']))
                 {
                     $_UserID = $_SESSION["UserID"];
 
-                    //Fetch products
+                    //Fetch information about products from the products table,
+                    //and pricing information from the transactions table,
+                    //using a quick SQL join.
                     $sql = "SELECT products.Description AS Description,
                                     products.ImagePath AS ImagePath,
                                     transactions.Quantity AS Amount,
@@ -108,7 +110,7 @@
                                     products.ProductID as ProductID
                                      FROM products JOIN transactions 
                                      ON products.ProductID = transactions.ProductID
-                                     WHERE transactions.UserID='$_UserID'";
+                                     WHERE transactions.UserID='$_UserID' AND PAID='0'";
                     $result = $conn->query($sql);
                 }
                 

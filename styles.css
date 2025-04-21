@@ -1771,6 +1771,8 @@ progress {
 }
 .table > tbody {
   vertical-align: inherit;
+  border-left: 1px solid #331c1b;
+  border-right: 1px solid #331c1b;
 }
 .table > thead {
   vertical-align: bottom;

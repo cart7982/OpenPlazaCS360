@@ -21,8 +21,6 @@ if(!isset($_SESSION["UserID"]))
     header('Location:login.html');
     exit();
 }
-else
-{
 
 //Get the ProductID and Amount passed from index "Add To Cart" button
 $ProductID = $_POST['ProductID'];
@@ -47,11 +45,9 @@ $_Prod_Amount = intval($Prod_Amount);
 if($_Quantity > $_Prod_Amount)
 {
     echo "Not enough inventory!  Transaction failed!";
-    //header('Location:product_listings.php');
+    header('Location:product_listings.php');
     exit();
 }
-else
-{
 
 //Get the Price as an integer to be used with Amount to find a total checkout price:
 $result = mysqli_query($conn, "SELECT Price as price FROM products WHERE ProductID='$_ProductID'");
@@ -133,8 +129,8 @@ if(isset($_ProductID) && isset($_UserID) && isset($_Quantity) && isset($_TotalPr
 
     header('Location:cart.php');
 }
-}
-}
+
+
 //header('Location:product_listings.php');
 
 ?>

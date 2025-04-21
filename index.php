@@ -1,5 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+    <!-- 
+        CS360 Lab - Final Project 
+        Title: OpenPlaza
+        Names:
+            Todd Carter
+            Anna Milligan
+        
+        This is a roughly complete e-commerce platform that uses a MySQL database to store product information
+        and enable transactions between external users.
+        
+        It uses the Start Boostrap Shop Homepage template, freely available online.
+        
+        Due to extensively using PHP, a free option for hosting the website could not be found,
+        so it is only hosted locally.  
+        
+    -->
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -12,7 +28,7 @@
         <link href="styles.css" rel="stylesheet" />
         
         <?php
-        // DB connection
+        //DB connection
         $servername = "127.0.0.1";
         $username = "root";
         $password = "";
@@ -90,18 +106,20 @@
                 {
                     $_UserID = $_SESSION["UserID"];
 
-                    //Fetch products
+                    //Fetch products that are not tied to the user.
+                    //SQL statements like this are not hardened using $stmt prepare(),
+                    //since they use only internal IDs without immediate external influence.
                     $sql = "SELECT * FROM products WHERE UserID!='$_UserID'";
                     $result = $conn->query($sql);
                 }
                 else
                 {
-                    //Fetch products
+                    //Fetch all products
                     $sql = "SELECT * FROM products";
                     $result = $conn->query($sql);
                 }
                 
-                //Go through list to display them dynamically
+                //Go through list to display products dynamically with some CSS sorcery
                 while ($row = $result->fetch_assoc()) { ?>
                     <div class="col mb-5">
                         <div class="card h-100">
