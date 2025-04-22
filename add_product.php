@@ -29,8 +29,8 @@ $_Description = $_POST['description'];
 //Get the image file names:
 $_Filename = basename($_FILES['uploadfile']['name']);
 $_TempFilename = $_FILES['uploadfile']['tmp_name'];
-$targetDir = './Images/';
-$targetFile = $targetDir . $_Filename;
+$targetDir = '/var/www/html/Images/';
+$targetFile = $targetDir . basename($_FILES['uploadfile']['name']);
 
 echo "_Filename is: ".$_Filename;
 echo "_TempFilename is: ".$_TempFilename;
@@ -61,6 +61,7 @@ if(isset($_ProductName) && isset($_Amount) && isset($_Description) && isset($_Fi
 
     if (move_uploaded_file($_TempFilename, $targetFile)) {
         echo "File uploaded successfully to $targetFile!";
+        chmod($targetFile, 0644);
     } else {
         echo "Failed to move uploaded file.";
     }    
