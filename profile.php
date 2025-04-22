@@ -364,7 +364,7 @@
 
         <div class = "card bg-primary">
             <div class = "card-body">
-            <div class = "card">
+            <div class = "card bg-primary">
                 <div class = "card-body">
                     <h3>Your Vendor Panel</h3>
                         Your Products for Sale: 

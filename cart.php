@@ -153,7 +153,7 @@
             </div>
             <div class = "card-body">
             <form action="checkout.php" method="post">                
-                <button input type="submit"  style="height:30px; width:170px; background-color: #0d6efd; color: white;" class="dropbtn">Checkout</button>
+                <button input type="submit"  style="height:30px; width:170px;" class="dropbtn btn-primary">Checkout</button>
             </div>
         </div>
 
