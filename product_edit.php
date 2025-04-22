@@ -47,7 +47,7 @@ else
 
 if(isset($_POST['productname']) && $_ProductName != null && $_ProductName != '')
 {
-    $stmt = $conn->prepare("UPDATE Products SET ProductName=? WHERE ProductID='$_ProductID'");
+    $stmt = $conn->prepare("UPDATE products SET ProductName=? WHERE ProductID='$_ProductID'");
     $stmt->bind_param("s", $_ProductName);
     $stmt->execute();
     $stmt->close();
@@ -59,7 +59,7 @@ else
 
 if(isset($_POST['amount']) && $_Amount != null && $_Amount != '')
 {    
-    $stmt = $conn->prepare("UPDATE Products SET Amount=? WHERE ProductID='$_ProductID'");
+    $stmt = $conn->prepare("UPDATE products SET Amount=? WHERE ProductID='$_ProductID'");
     $stmt->bind_param("s", $_Amount);
     $stmt->execute();
     $stmt->close();
@@ -71,7 +71,7 @@ else
 
 if(isset($_POST['price']) && $_Price != null && $_Price != '')
 {    
-    $stmt = $conn->prepare("UPDATE Products SET Price=? WHERE ProductID='$_ProductID'");
+    $stmt = $conn->prepare("UPDATE products SET Price=? WHERE ProductID='$_ProductID'");
     $stmt->bind_param("s", $_Price);
     $stmt->execute();
     $stmt->close();
@@ -83,7 +83,7 @@ else
 
 if(isset($_POST['description']) && $_Price != null && $_Price != '')
 {    
-    $stmt = $conn->prepare("UPDATE Products SET Description=? WHERE ProductID='$_ProductID'");
+    $stmt = $conn->prepare("UPDATE products SET Description=? WHERE ProductID='$_ProductID'");
     $stmt->bind_param("s", $_Description);
     $stmt->execute();
     $stmt->close();
@@ -97,7 +97,7 @@ if($_SESSION["AdminID"] != '0' && $_SESSION["AdminID"] != "" && isset($_SESSION[
 {
     if(isset($_POST['UserID']) && $_UserID != null && $_UserID != '')
     {    
-        $stmt = $conn->prepare("UPDATE Products SET UserID=? WHERE ProductID='$_ProductID'");
+        $stmt = $conn->prepare("UPDATE products SET UserID=? WHERE ProductID='$_ProductID'");
         $stmt->bind_param("s", $_UserID);
         $stmt->execute();
         $stmt->close();
@@ -105,7 +105,7 @@ if($_SESSION["AdminID"] != '0' && $_SESSION["AdminID"] != "" && isset($_SESSION[
 
     if(isset($_POST['price']) && $_Price != null && $_Price != '')
     {    
-        $stmt = $conn->prepare("UPDATE Products SET ProductID=? WHERE ProductID='$_ProductID'");
+        $stmt = $conn->prepare("UPDATE products SET ProductID=? WHERE ProductID='$_ProductID'");
         $stmt->bind_param("s", $_NewProductID);
         $stmt->execute();
         $stmt->close();
