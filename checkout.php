@@ -61,7 +61,7 @@
         <section class="py-5">
             <?php
                 $_UserID = $_SESSION["UserID"];
-                $conn = mysqli_connect("localhost","root","","openplaza");
+                $conn = mysqli_connect("localhost","root","openplaza","openplaza");
                 $result = mysqli_query($conn,"SELECT * FROM transactions WHERE UserID='$_UserID' AND PAID='0' LIMIT 50");
                 $data = $result->fetch_all(MYSQLI_ASSOC);
 

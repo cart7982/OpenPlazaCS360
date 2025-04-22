@@ -73,7 +73,7 @@
 
             <?php
             $_UserID = $_SESSION["UserID"];
-            $conn = mysqli_connect("localhost","root","","openplaza");
+            $conn = mysqli_connect("localhost","root","openplaza","openplaza");
             $result = mysqli_query($conn,"SELECT * FROM products WHERE UserID != '$_UserID' LIMIT 50");
             $data = $result->fetch_all(MYSQLI_ASSOC);
             ?>

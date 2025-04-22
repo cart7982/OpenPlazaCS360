@@ -132,7 +132,7 @@
             <!-- Start of product list -->
                 <?php
                 $_UserID = $_SESSION["UserID"];
-                $conn = mysqli_connect("localhost","root","","openplaza");
+                $conn = mysqli_connect("localhost","root","openplaza","openplaza");
                 ?>
 
                 <div class="container px-4 px-lg-5 mt-5">
@@ -233,7 +233,7 @@
                 <!-- Start of admin users list -->
                     <?php
                     $_UserID = $_SESSION["UserID"];
-                    $conn = mysqli_connect("localhost","root","","openplaza");
+                    $conn = mysqli_connect("localhost","root","openplaza","openplaza");
                     $result = mysqli_query($conn,"SELECT * FROM users LIMIT 50");
                     $data = $result->fetch_all(MYSQLI_ASSOC);
                     ?>
@@ -313,7 +313,7 @@
 
                 <?php
                 $_UserID = $_SESSION["UserID"];
-                $conn = mysqli_connect("localhost","root","","openplaza");
+                $conn = mysqli_connect("localhost","root","openplaza","openplaza");
                 $result = mysqli_query($conn,"SELECT * FROM transactions LIMIT 50");
                 $data = $result->fetch_all(MYSQLI_ASSOC);
                 ?>
@@ -418,7 +418,7 @@
                     <!-- Start of vendor product list -->
                     <?php
                     $_UserID = $_SESSION["UserID"];
-                    $conn = mysqli_connect("localhost","root","","openplaza");
+                    $conn = mysqli_connect("localhost","root","openplaza","openplaza");
                     ?>
                     <div class="container px-4 px-lg-5 mt-5">
                         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">

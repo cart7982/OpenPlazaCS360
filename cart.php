@@ -67,7 +67,7 @@
             <div class = "card-body">
                 <?php
                 $_UserID = $_SESSION["UserID"];
-                $conn = mysqli_connect("localhost","root","","openplaza");
+                $conn = mysqli_connect("localhost","root","openplaza","openplaza");
                 $result = mysqli_query($conn,"SELECT * FROM transactions WHERE UserID='$_UserID' AND PAID='0' LIMIT 50");
                 $data = $result->fetch_all(MYSQLI_ASSOC);
 
@@ -151,8 +151,9 @@
                 </div>
             </div>
             </div>
-            <div class = "card-body">                
-                <button style="height:30px; width:170px; background-color: #0d6efd; color: white;" class="dropbtn" href = "checkout.php">Checkout</button>
+            <div class = "card-body">
+            <form action="checkout.php" method="post">                
+                <button input type="submit"  style="height:30px; width:170px; background-color: #0d6efd; color: white;" class="dropbtn">Checkout</button>
             </div>
         </div>
 
