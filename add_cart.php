@@ -117,7 +117,7 @@ if(isset($_ProductID) && isset($_UserID) && isset($_Quantity) && isset($_TotalPr
     {
         //No quantity was found, so insert new transaction
         //Put purchase information into transaction table
-        $sql = "INSERT INTO transactions (TransactionID, ProductName, ProductID, UserID, Quantity, TotalPrice, Price) VALUES ('$NewTransactionID', '$_ProductName', '$_ProductID', '$_UserID', '$_Quantity', '$_TotalPrice', '$_Price')";
+        $sql = "INSERT INTO transactions (TransactionID, ProductName, ProductID, UserID, Quantity, TotalPrice, Price, PaymentID, PAID) VALUES ('$NewTransactionID', '$_ProductName', '$_ProductID', '$_UserID', '$_Quantity', '$_TotalPrice', '$_Price', '0', '0')";
         $conn->query($sql);
 
         //Update the product with the lowered inventory amount
